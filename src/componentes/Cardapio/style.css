@@ -1,5 +1,6 @@
 .cardapio {
-  padding: 40px 50px;
+  box-sizing: border-box;
+  padding: 40px 100px;
 }
 .cardapio__btn__revisar {
   display: flex;
@@ -16,4 +17,10 @@
 .cardapio__info {
   display: flex;
   gap: 76px;
+}
+.cardapio__lista__produtos {
+  padding: 50px 0px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
 }

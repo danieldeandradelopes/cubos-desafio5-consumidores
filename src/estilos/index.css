@@ -5,14 +5,14 @@
 
 * {
   font-family: "Baloo 2", cursive;
-  box-sizing: border-box;
+  box-sizing: border-box !important;
   padding: 0;
   margin: 0;
 }
 
 body {
   margin: 0;
-  box-sizing: border-box;
+  box-sizing: border-box !important;
   width: 100vw;
   height: 100vh;
 }
@@ -41,4 +41,8 @@ input {
   width: 408px;
   height: 47px;
   padding: 8px;
+}
+
+.color-text-tag {
+  color: #525459;
 }

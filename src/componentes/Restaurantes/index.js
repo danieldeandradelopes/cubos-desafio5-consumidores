@@ -16,9 +16,11 @@ const Restaurantes = () => {
     handleListarRestaurantes();
   }, []);
 
-  const resultado = restaurantes.filter((r) =>
-    r.nome.toLowerCase().includes(filtro.toLowerCase())
-  );
+  const resultado =
+    restaurantes.length &&
+    restaurantes.filter((r) =>
+      r.nome.toLowerCase().includes(filtro.toLowerCase())
+    );
 
   return (
     <div className="restaurantes">
@@ -30,8 +32,8 @@ const Restaurantes = () => {
           />
         </div>
       </div>
-      <div className={resultado.length > 0 ? "restaurantes__lista" : ""}>
-        {resultado.length > 0 ? (
+      <div className={resultado && resultado.length && "restaurantes__lista"}>
+        {resultado && resultado.length > 0 ? (
           resultado.map((r) => (
             <CardRestaurante
               nome={r.nome}

@@ -1,7 +1,9 @@
 import "./style.css";
 
-import { ReactComponent as SifraoIcon } from "../../assets/sifrao.svg";
-import { ReactComponent as TimeIcon } from "../../assets/time.svg";
+import TagPedidoMinimo from "../TagPedidoMinimo";
+import TagTempoEntrega from "../TagTempoEntrega";
+
+import CardProduto from "../../componentes/CardProduto";
 
 const Cardapio = () => {
   return (
@@ -10,18 +12,12 @@ const Cardapio = () => {
         <button>Revisar Pedido</button>
       </div>
       <div className="cardapio__info">
-        <div className="flex-row content-center">
-          <SifraoIcon />
-          <span>Pedido Mínimo:</span>
-          <p>R$</p>
-        </div>
-        <div className="flex-row content-center ">
-          <TimeIcon />
-          <span>Tempo de Entrega:</span>
-          <p></p>
-        </div>
+        <TagPedidoMinimo />
+        <TagTempoEntrega />
       </div>
-      <div></div>
+      <div className="cardapio__lista__produtos">
+        <CardProduto />
+      </div>
     </div>
   );
 };
