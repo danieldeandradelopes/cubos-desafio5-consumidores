@@ -1,0 +1,19 @@
+.cardapio {
+  padding: 40px 50px;
+}
+.cardapio__btn__revisar {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.cardapio__btn__revisar button {
+  all: unset;
+  cursor: pointer;
+  background-color: #d13201;
+  color: #ffffff;
+  padding: 10px 40px;
+  border-radius: 20px;
+}
+.cardapio__info {
+  display: flex;
+  gap: 76px;
+}
