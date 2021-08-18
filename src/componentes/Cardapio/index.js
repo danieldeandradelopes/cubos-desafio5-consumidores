@@ -4,6 +4,7 @@ import TagPedidoMinimo from "../TagPedidoMinimo";
 import TagTempoEntrega from "../TagTempoEntrega";
 
 import CardProduto from "../../componentes/CardProduto";
+import SemPratos from "../SemPratos";
 
 const Cardapio = () => {
   return (
@@ -15,9 +16,7 @@ const Cardapio = () => {
         <TagPedidoMinimo />
         <TagTempoEntrega />
       </div>
-      <div className="cardapio__lista__produtos">
-        <CardProduto />
-      </div>
+      <div className="cardapio__lista__produtos"></div>
     </div>
   );
 };
