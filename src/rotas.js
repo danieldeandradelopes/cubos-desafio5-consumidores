@@ -10,6 +10,7 @@ import ConsumidorCadastro from "./paginas/cadastroConsumidor";
 import { ClientAuthProvider } from "./contexto/autorizacao";
 import { UseClientAuth } from "./contexto/autorizacao";
 import ListaRestaurantes from "./paginas/listaRestaurantes";
+import CardapioRestaurante from "./paginas/cardapioRestaurante";
 
 function ClientAuthPath(props) {
   const { gravarConsumidor } = UseClientAuth();
@@ -31,6 +32,7 @@ function Rotas() {
           <Switch>
             <Route exact path="/consumidor-login" component={ConsumidorLogin} />
             <Route path="/consumidor-cadastro" component={ConsumidorCadastro} />
+            <Route path="/cardapio" component={CardapioRestaurante} />
             <ClientAuthPath>
               <Route
                 exact
