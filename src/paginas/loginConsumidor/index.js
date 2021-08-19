@@ -11,6 +11,7 @@ import { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { toast } from "react-toastify";
+import CardProduto from "../../componentes/CardProduto";
 
 const schema = yup.object().shape({
   email: yup
@@ -107,6 +108,7 @@ export default function ConsumidorLogin() {
           </spam>
         </div>
       </form>
+      <CardProduto />
       <Backdrop className={classes.backdrop} open={carregando}>
         <CircularProgress color="inherit" />
       </Backdrop>

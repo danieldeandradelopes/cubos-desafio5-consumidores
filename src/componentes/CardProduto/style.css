@@ -1,0 +1,90 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(10, 12, 28, 0.5);
+  display: grid;
+  place-content: center;
+  overflow: auto;
+}
+
+.fechado {
+  display: none;
+}
+
+.modal_produto {
+  /* margin-top: 850px; */
+  margin-bottom: 10px;
+  background-color: #ffff;
+  color: #161932;
+  /* padding: 34px 40px 54px; */
+  border-radius: 25px;
+  display: flex;
+  width: auto;
+}
+
+.imagem-produto {
+  border-radius: 25px 25px 0 0;
+  width: 704.75px;
+  height: 395px;
+}
+
+.relative {
+  position: relative;
+}
+
+.imagem-restaurante {
+  position: absolute;
+  bottom: 380px;
+  right: 100px;
+  width: 150px;
+  border-radius: 50%;
+  border: 5px solid #ffff;
+}
+
+.padding-card-produto {
+  padding: 35px;
+}
+
+.titulo-produto {
+  margin-bottom: 10px;
+}
+
+.componente-pedido-entrega {
+  margin-bottom: 30px;
+}
+
+.space-between {
+  justify-content: space-between;
+  margin-bottom: 70px;
+}
+
+.preco-produto {
+  background: linear-gradient(
+      0deg,
+      rgba(13, 138, 79, 0.1),
+      rgba(13, 138, 79, 0.1)
+    ),
+    linear-gradient(0deg, #ffffff, #ffffff);
+
+  padding: 15px;
+  color: #006335;
+}
+
+.botao-contador {
+  all: unset;
+  width: 40px;
+  height: 40px;
+  background-color: #d13201;
+  outline: none;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bolder;
+  font-size: 32px;
+  border-radius: 8px;
+  margin: 8px;
+}
