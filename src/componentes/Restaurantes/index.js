@@ -36,6 +36,7 @@ const Restaurantes = () => {
         {resultado && resultado.length > 0 ? (
           resultado.map((r) => (
             <CardRestaurante
+              id={r.id}
               nome={r.nome}
               descricao={r.descricao}
               imagem={semImagem}
