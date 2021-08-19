@@ -74,6 +74,20 @@ export function FetchProvider({ children }) {
     setRestaurantes(data);
   };
 
+  const handleExibirCardapio = async (id) => {
+    const response = await fetch(
+      `https://desafio5backconsumidor.herokuapp.com/restaurantes/${id}`,
+      {
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${gravarConsumidor.token}`,
+        },
+      }
+    );
+    const data = await response.json();
+    return data;
+  };
+
   return (
     <FetchContext.Provider
       value={{
@@ -84,6 +98,7 @@ export function FetchProvider({ children }) {
         restaurantes,
         setRestaurantes,
         handleListarRestaurantes,
+        handleExibirCardapio,
       }}
     >
       {children}
@@ -100,6 +115,7 @@ export function UseFetch() {
     restaurantes,
     setRestaurantes,
     handleListarRestaurantes,
+    handleExibirCardapio,
   } = useContext(FetchContext);
 
   return {
@@ -110,5 +126,6 @@ export function UseFetch() {
     restaurantes,
     setRestaurantes,
     handleListarRestaurantes,
+    handleExibirCardapio,
   };
 }

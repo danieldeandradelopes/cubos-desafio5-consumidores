@@ -3,10 +3,12 @@ const TagTempoEntrega = ({ tempoEntrega }) => {
   return (
     <div className="flex-row content-center ">
       <TimeIcon />
-      <span className="text-bold mg-left-9 color-text-tag">
-        Tempo de Entrega:
-      </span>
-      <p></p>
+      <p style={{ color: "#525459" }}>
+        <span className="text-bold mg-left-9 color-text-tag">
+          Tempo de Entrega:
+        </span>
+        {` ${tempoEntrega}`}
+      </p>
     </div>
   );
 };

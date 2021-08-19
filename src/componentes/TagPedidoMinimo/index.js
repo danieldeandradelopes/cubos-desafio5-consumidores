@@ -4,7 +4,7 @@ const TagPedidoMinimo = ({ valorPedidoMinimo }) => {
   return (
     <div className="flex-row content-center">
       <SifraoIcon />
-      <p>
+      <p style={{ color: "#525459" }}>
         <span className="text-bold mg-left-9 color-text-tag ">
           Pedido Mínimo:
         </span>
