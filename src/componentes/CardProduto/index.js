@@ -2,13 +2,22 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import pizzaria from "../../assets/pizarria.png";
 import "./style.css";
+import produtoCarrinho from "../../assets/produto-adicionado.png";
 
 function CardProduto() {
   const [quantidade, setQuantidade] = useState(0);
+  const [produtoAdd, setProdutoAdd] = useState(false);
+  const [abrirCard, setAbrirCard] = useState(false);
 
   function contador(soma) {
-    if (quantidade < 0) return;
-    setQuantidade(quantidade + soma);
+    const calcul = quantidade + soma;
+    if (calcul < 0) return;
+    setQuantidade(calcul);
+  }
+
+  function fecharModalProduto() {
+    setProdutoAdd(false);
+    setAbrirCard(false);
   }
 
   return (
@@ -25,30 +34,60 @@ function CardProduto() {
             src={pizzaria}
             alt="imagem-restaurante"
           />
+          <button className="fechar-modal" onClick={() => fecharModalProduto()}>
+            &times;
+          </button>
           <div className="padding-card-produto">
-            <h1 className="titulo-produto">Nome do produto</h1>
-            <div className="componente-pedido-entrega">
-              Componente de pedido minimo e tempo de entrega
-            </div>
-            <div className="flex-row space-between">
+            {produtoAdd ? (
+              <div className="flex-column content-center item-center produto-add">
+                <img
+                  className="imagem-produto-add item-center"
+                  src={produtoCarrinho}
+                  alt="imagem-produto"
+                />
+              </div>
+            ) : (
               <div>
-                <p>Descrição do produto</p>
+                <h1 className="titulo-produto">Nome do produto</h1>
+                <div className="componente-pedido-entrega">
+                  Componente de pedido minimo e tempo de entrega
+                </div>
+                <div className="flex-row space-between">
+                  <div>
+                    <p>Descrição do produto</p>
+                  </div>
+                  <div className="preco-produto">Preço do produto</div>
+                </div>
+                <div className="flex-row space-between paddingY">
+                  <div className="contador flex-row">
+                    <button
+                      className="botao-contador"
+                      onClick={() => contador(+1)}
+                    >
+                      +
+                    </button>
+                    <div className="flex-column content-center margemY">
+                      {quantidade}
+                    </div>
+                    <button
+                      className="botao-contador"
+                      onClick={() => contador(-1)}
+                    >
+                      -
+                    </button>
+                  </div>
+                  <button
+                    className="btn__laranja"
+                    onClick={() => setProdutoAdd(true)}
+                  >
+                    Adicionar ao carrinho
+                  </button>
+                </div>
               </div>
-              <div className="preco-produto">Preço do produto</div>
+            )}
+            <div className="flex-row content-center">
+              <Link to="">Ir para revisão do pedido</Link>
             </div>
-            <form className="flex-row space-between">
-              <div className="contador flex-row">
-                <button className="botao-contador" onClick={() => contador(+1)}>
-                  +
-                </button>
-                <div>{quantidade}</div>
-                <button className="botao-contador" onClick={() => contador(-1)}>
-                  -
-                </button>
-              </div>
-              <button className="btn__laranja">Adicionar ao carrinho</button>
-            </form>
-            <Link to="">Ir para revisão do pedido</Link>
           </div>
         </div>
       </div>

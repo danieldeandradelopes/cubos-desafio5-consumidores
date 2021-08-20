@@ -15,11 +15,9 @@
 }
 
 .modal_produto {
-  /* margin-top: 850px; */
   margin-bottom: 10px;
-  background-color: #ffff;
+  background-color: #f9f9f9;
   color: #161932;
-  /* padding: 34px 40px 54px; */
   border-radius: 25px;
   display: flex;
   width: auto;
@@ -46,6 +44,8 @@
 
 .padding-card-produto {
   padding: 35px;
+  width: 704.75px;
+  height: 465px;
 }
 
 .titulo-produto {
@@ -87,4 +87,39 @@
   font-size: 32px;
   border-radius: 8px;
   margin: 8px;
+}
+
+.paddingY {
+  padding: 0 50px;
+}
+
+.margemY {
+  margin: 0 10px;
+}
+
+.link-center {
+  display: block;
+  margin-left: auto;
+}
+
+.produto-add {
+  width: 100%;
+  height: 95%;
+}
+
+.imagem-produto-add {
+  width: 400px;
+  height: auto;
+}
+
+.fechar-modal {
+  color: #ffff;
+  font-size: 60px;
+  font-size: bold;
+  background-color: transparent;
+  outline: transparent;
+  border: transparent;
+  position: absolute;
+  top: 0;
+  right: 50px;
 }
