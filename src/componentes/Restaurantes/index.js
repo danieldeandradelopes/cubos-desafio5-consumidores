@@ -39,7 +39,7 @@ const Restaurantes = () => {
               id={r.id}
               nome={r.nome}
               descricao={r.descricao}
-              imagem={semImagem}
+              imagem={r.imagem ? r.imagem : semImagem}
             />
           ))
         ) : (
