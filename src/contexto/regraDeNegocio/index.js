@@ -9,6 +9,7 @@ export function FetchProvider({ children }) {
   const [abrirCard, setAbrirCard] = useState(false);
   const [carrinho, setCarrinho] = useState([]);
   const [endereco, setEndereco] = useState();
+  const [abrirCarrinho, setAbrirCarrinho] = useState(false);
   const { gravarConsumidor } = UseClientAuth();
 
   async function handleLoginConsumidor(data) {
@@ -102,6 +103,8 @@ export function FetchProvider({ children }) {
         setCarrinho,
         endereco,
         setEndereco,
+        abrirCarrinho,
+        setAbrirCarrinho,
         handleExibirCardapio,
       }}
     >
@@ -123,6 +126,8 @@ export function UseFetch() {
     setCarrinho,
     endereco,
     setEndereco,
+    abrirCarrinho,
+    setAbrirCarrinho,
     handleExibirCardapio,
   } = useContext(FetchContext);
 
@@ -138,6 +143,8 @@ export function UseFetch() {
     setCarrinho,
     endereco,
     setEndereco,
+    abrirCarrinho,
+    setAbrirCarrinho,
     handleExibirCardapio,
   };
 }

@@ -2,14 +2,18 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import "./style.css";
 import produtoCarrinho from "../../assets/produto-adicionado.png";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { makeStyles } from "@material-ui/core/styles";
+import { UseFetch } from "../../contexto/regraDeNegocio";
+import TagPedidoMinimo from "../TagPedidoMinimo";
+import TagTempoEntrega from "../TagTempoEntrega";
 
 function CardProduto({ id, nome, descricao, preco, imagem }) {
   const [quantidade, setQuantidade] = useState(0);
   const [produtoAdd, setProdutoAdd] = useState(false);
-  const [abrirCard, setAbrirCard] = useState(false);
   const [carregando, setCarregando] = useState(false);
-
-  const classes = useStyles();
+  const { setAbrirCard, abrirCard } = UseFetch();
 
   function contador(soma) {
     const calcul = quantidade + soma;
@@ -28,6 +32,8 @@ function CardProduto({ id, nome, descricao, preco, imagem }) {
       color: "#fff",
     },
   }));
+
+  const classes = useStyles();
 
   return (
     <div className="overlay">
@@ -59,7 +65,8 @@ function CardProduto({ id, nome, descricao, preco, imagem }) {
               <div>
                 <h1 className="titulo-produto">{nome}</h1>
                 <div className="componente-pedido-entrega">
-                  Componente de pedido minimo e tempo de entrega
+                  <TagPedidoMinimo />
+                  <TagTempoEntrega />
                 </div>
                 <div className="flex-row space-between">
                   <div>

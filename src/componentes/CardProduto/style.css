@@ -54,6 +54,9 @@
 
 .componente-pedido-entrega {
   margin-bottom: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .space-between {
