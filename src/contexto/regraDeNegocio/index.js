@@ -10,6 +10,8 @@ export function FetchProvider({ children }) {
   const [carrinho, setCarrinho] = useState([]);
   const [endereco, setEndereco] = useState();
   const [abrirCarrinho, setAbrirCarrinho] = useState(false);
+  const [quantidade, setQuantidade] = useState(0);
+  const [produtoNoCarrinho, setProdutoNoCarrinho] = useState({});
   const { gravarConsumidor } = UseClientAuth();
 
   async function handleLoginConsumidor(data) {
@@ -94,6 +96,8 @@ export function FetchProvider({ children }) {
       value={{
         abrirCard,
         setAbrirCard,
+        quantidade,
+        setQuantidade,
         handleLoginConsumidor,
         handleCadastroConsumidor,
         restaurantes,
@@ -106,6 +110,8 @@ export function FetchProvider({ children }) {
         abrirCarrinho,
         setAbrirCarrinho,
         handleExibirCardapio,
+        produtoNoCarrinho,
+        setProdutoNoCarrinho,
       }}
     >
       {children}
@@ -117,6 +123,8 @@ export function UseFetch() {
   const {
     abrirCard,
     setAbrirCard,
+    quantidade,
+    setQuantidade,
     handleLoginConsumidor,
     handleCadastroConsumidor,
     restaurantes,
@@ -129,11 +137,15 @@ export function UseFetch() {
     abrirCarrinho,
     setAbrirCarrinho,
     handleExibirCardapio,
+    produtoNoCarrinho,
+    setProdutoNoCarrinho,
   } = useContext(FetchContext);
 
   return {
     abrirCard,
     setAbrirCard,
+    quantidade,
+    setQuantidade,
     handleLoginConsumidor,
     handleCadastroConsumidor,
     restaurantes,
@@ -146,5 +158,7 @@ export function UseFetch() {
     abrirCarrinho,
     setAbrirCarrinho,
     handleExibirCardapio,
+    produtoNoCarrinho,
+    setProdutoNoCarrinho,
   };
 }
