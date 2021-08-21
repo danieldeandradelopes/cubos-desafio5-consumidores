@@ -1,0 +1,49 @@
+.modal-endereco {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(128, 128, 128, 0.199);
+}
+
+.endereco-container {
+  background-color: #F9F9F9;
+  width: 525px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 30px;
+}
+
+.botao-fechar-modal {
+  margin: 25px 57px 9px auto;
+  color: #D13201;
+  font-weight: bolder;
+  font-size: 15pt;
+  cursor: pointer;
+}
+
+h2 {
+  margin-bottom: 32px;
+}
+
+.endereco-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.endereco-form label {
+  margin-bottom: 27px;
+}
+
+.endereco-form button {
+  margin-bottom: 47px;
+}
+
+.endereco-form button {
+  margin-right:  auto;
+  margin-left:  auto;
+  width: 60%;
+  text-align: center;
+}
