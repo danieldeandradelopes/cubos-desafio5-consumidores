@@ -10,6 +10,7 @@ export function FetchProvider({ children }) {
   const [restaurantes, setRestaurantes] = useState([]);
   const { gravarConsumidor } = UseClientAuth();
   const [abrirCard, setAbrirCard] = useState(false);
+  const [carrinho, setCarrinho] = useState([]);
 
   async function handleLoginConsumidor(data) {
     const body = JSON.stringify(data);
@@ -84,6 +85,8 @@ export function FetchProvider({ children }) {
         restaurantes,
         setRestaurantes,
         handleListarRestaurantes,
+        carrinho,
+        setCarrinho,
       }}
     >
       {children}
@@ -100,6 +103,8 @@ export function UseFetch() {
     restaurantes,
     setRestaurantes,
     handleListarRestaurantes,
+    carrinho,
+    setCarrinho,
   } = useContext(FetchContext);
 
   return {
@@ -110,5 +115,7 @@ export function UseFetch() {
     restaurantes,
     setRestaurantes,
     handleListarRestaurantes,
+    carrinho,
+    setCarrinho,
   };
 }

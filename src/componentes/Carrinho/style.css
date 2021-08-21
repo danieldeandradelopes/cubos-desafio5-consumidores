@@ -1,0 +1,38 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(10, 12, 28, 0.5);
+  display: grid;
+  place-content: center;
+  overflow: auto;
+}
+
+.fechado {
+  display: none;
+}
+
+.modal_carrinho {
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+  color: #161932;
+  border-radius: 25px;
+  display: flex;
+  width: auto;
+  flex-direction: column;
+  width: 704.75px;
+  height: 860px;
+  padding: 50px;
+}
+
+.carrinho-vazio {
+  width: 330px;
+  height: 300px;
+}
+
+.restaurante-carrinho {
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
