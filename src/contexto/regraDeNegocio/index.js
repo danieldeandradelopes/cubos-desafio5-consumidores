@@ -1,16 +1,15 @@
 import { useState, createContext } from "react";
-import { useHistory } from "react-router-dom";
 import { useContext } from "react";
 import { UseClientAuth } from "../autorizacao";
 
 const FetchContext = createContext();
 
 export function FetchProvider({ children }) {
-  const history = useHistory();
   const [restaurantes, setRestaurantes] = useState([]);
-  const { gravarConsumidor } = UseClientAuth();
   const [abrirCard, setAbrirCard] = useState(false);
   const [carrinho, setCarrinho] = useState([]);
+  const [endereco, setEndereco] = useState();
+  const { gravarConsumidor } = UseClientAuth();
 
   async function handleLoginConsumidor(data) {
     const body = JSON.stringify(data);
@@ -87,6 +86,8 @@ export function FetchProvider({ children }) {
         handleListarRestaurantes,
         carrinho,
         setCarrinho,
+        endereco,
+        setEndereco,
       }}
     >
       {children}
@@ -105,6 +106,8 @@ export function UseFetch() {
     handleListarRestaurantes,
     carrinho,
     setCarrinho,
+    endereco,
+    setEndereco,
   } = useContext(FetchContext);
 
   return {
@@ -117,5 +120,7 @@ export function UseFetch() {
     handleListarRestaurantes,
     carrinho,
     setCarrinho,
+    endereco,
+    setEndereco,
   };
 }
