@@ -1,10 +1,9 @@
 import "./style.css";
-
+import { UseFetch } from "../../contexto/regraDeNegocio";
 import Sucesso from "../../assets/endereco-sucesso.png";
 
-
 const modalEndereco = () => {
-
+  const { abrirEndereco, setAbrirEndereco, setEndereco, endereco } = UseFetch();
 
   return (
     <div className="modal-endereco">
@@ -14,29 +13,19 @@ const modalEndereco = () => {
         <h2>Adicionar Endereço</h2>
 
         <form className="endereco-form">
-
           <label>
             CEP
-            <input
-              type="text"
-              className="inputs-endereco"
-            />
+            <input type="text" className="inputs-endereco" />
           </label>
 
           <label>
             Endereco
-            <input
-              type="text"
-              className="inputs-endereco"
-            />
+            <input type="text" className="inputs-endereco" />
           </label>
 
           <label>
             Complemento
-            <input
-              type="text"
-              className="inputs-endereco"
-            />
+            <input type="text" className="inputs-endereco" />
           </label>
 
           <button className="btn__laranja"> Adicionar Endereço </button>
@@ -48,7 +37,6 @@ const modalEndereco = () => {
       </div>
     </div>
   );
-
 };
 
 export default modalEndereco;

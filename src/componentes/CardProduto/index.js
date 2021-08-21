@@ -31,16 +31,30 @@ function CardProduto({ id, nome, descricao, preco, imagem }) {
   function fecharModalProduto() {
     setAbrirCard(false);
     setProdutoAdd(false);
+    setQuantidade(0);
   }
 
-  function CarrinhoModal() {
+  function carrinhoModal() {
     setAbrirCard(false);
     setProdutoAdd(false);
+    setQuantidade(0);
     setAbrirCarrinho(true);
   }
 
   function produtoAdicionado() {
-    const adicionarProduto = produtoNoCarrinho;
+    if (quantidade === 0) {
+      return;
+    }
+
+    const adicionarProduto = [...produtoNoCarrinho];
+
+    const produto = adicionarProduto.find((item) => item.id === id);
+    if (produto) {
+      produto.quantidade += quantidade;
+      setProdutoNoCarrinho(adicionarProduto);
+      return;
+    }
+
     adicionarProduto.push({ quantidade, id, nome, preco, imagem });
     setProdutoNoCarrinho(adicionarProduto);
     setProdutoAdd(true);
@@ -124,7 +138,7 @@ function CardProduto({ id, nome, descricao, preco, imagem }) {
               </div>
             )}
             <div className="flex-row content-center">
-              <Link onClick={() => CarrinhoModal()}>
+              <Link onClick={() => carrinhoModal()}>
                 Ir para revisão do pedido
               </Link>
             </div>
