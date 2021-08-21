@@ -10,10 +10,17 @@ import TagPedidoMinimo from "../TagPedidoMinimo";
 import TagTempoEntrega from "../TagTempoEntrega";
 
 function CardProduto({ id, nome, descricao, preco, imagem }) {
-  const [quantidade, setQuantidade] = useState(0);
   const [produtoAdd, setProdutoAdd] = useState(false);
   const [carregando, setCarregando] = useState(false);
-  const { setAbrirCard, abrirCard } = UseFetch();
+  const {
+    setAbrirCard,
+    abrirCard,
+    quantidade,
+    setQuantidade,
+    setAbrirCarrinho,
+    produtoNoCarrinho,
+    setProdutoNoCarrinho,
+  } = UseFetch();
 
   function contador(soma) {
     const calcul = quantidade + soma;
@@ -22,8 +29,21 @@ function CardProduto({ id, nome, descricao, preco, imagem }) {
   }
 
   function fecharModalProduto() {
-    setProdutoAdd(false);
     setAbrirCard(false);
+    setProdutoAdd(false);
+  }
+
+  function CarrinhoModal() {
+    setAbrirCard(false);
+    setProdutoAdd(false);
+    setAbrirCarrinho(true);
+  }
+
+  function produtoAdicionado() {
+    const adicionarProduto = produtoNoCarrinho;
+    adicionarProduto.push({ quantidade, id, nome, preco, imagem });
+    setProdutoNoCarrinho(adicionarProduto);
+    setProdutoAdd(true);
   }
 
   const useStyles = makeStyles((theme) => ({
@@ -36,7 +56,7 @@ function CardProduto({ id, nome, descricao, preco, imagem }) {
   const classes = useStyles();
 
   return (
-    <div className="overlay">
+    <div className={abrirCard ? "overlay" : "fechado"}>
       <div className="modal_produto">
         <div className="flex-column relative">
           <img
@@ -62,7 +82,7 @@ function CardProduto({ id, nome, descricao, preco, imagem }) {
                 />
               </div>
             ) : (
-              <div>
+              <div className="flex-column">
                 <h1 className="titulo-produto">{nome}</h1>
                 <div className="componente-pedido-entrega">
                   <TagPedidoMinimo />
@@ -96,7 +116,7 @@ function CardProduto({ id, nome, descricao, preco, imagem }) {
                   </div>
                   <button
                     className="btn__laranja"
-                    onClick={() => setProdutoAdd(true)}
+                    onClick={() => produtoAdicionado()}
                   >
                     Adicionar ao carrinho
                   </button>
@@ -104,7 +124,9 @@ function CardProduto({ id, nome, descricao, preco, imagem }) {
               </div>
             )}
             <div className="flex-row content-center">
-              <Link to="">Ir para revisão do pedido</Link>
+              <Link onClick={() => CarrinhoModal()}>
+                Ir para revisão do pedido
+              </Link>
             </div>
           </div>
         </div>
