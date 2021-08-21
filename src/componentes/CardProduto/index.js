@@ -1,13 +1,15 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import pizzaria from "../../assets/pizarria.png";
 import "./style.css";
 import produtoCarrinho from "../../assets/produto-adicionado.png";
 
-function CardProduto() {
+function CardProduto({ id, nome, descricao, preco, imagem }) {
   const [quantidade, setQuantidade] = useState(0);
   const [produtoAdd, setProdutoAdd] = useState(false);
   const [abrirCard, setAbrirCard] = useState(false);
+  const [carregando, setCarregando] = useState(false);
+
+  const classes = useStyles();
 
   function contador(soma) {
     const calcul = quantidade + soma;
@@ -20,6 +22,13 @@ function CardProduto() {
     setAbrirCard(false);
   }
 
+  const useStyles = makeStyles((theme) => ({
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: "#fff",
+    },
+  }));
+
   return (
     <div className="overlay">
       <div className="modal_produto">
@@ -31,7 +40,7 @@ function CardProduto() {
           />
           <img
             className="imagem-restaurante"
-            src={pizzaria}
+            src={imagem}
             alt="imagem-restaurante"
           />
           <button className="fechar-modal" onClick={() => fecharModalProduto()}>
@@ -48,15 +57,17 @@ function CardProduto() {
               </div>
             ) : (
               <div>
-                <h1 className="titulo-produto">Nome do produto</h1>
+                <h1 className="titulo-produto">{nome}</h1>
                 <div className="componente-pedido-entrega">
                   Componente de pedido minimo e tempo de entrega
                 </div>
                 <div className="flex-row space-between">
                   <div>
-                    <p>Descrição do produto</p>
+                    <p>{descricao}</p>
                   </div>
-                  <div className="preco-produto">Preço do produto</div>
+                  <div className="preco-produto">
+                    R$ {(preco / 100).toFixed(2)}
+                  </div>
                 </div>
                 <div className="flex-row space-between paddingY">
                   <div className="contador flex-row">
@@ -91,6 +102,9 @@ function CardProduto() {
           </div>
         </div>
       </div>
+      <Backdrop className={classes.backdrop} open={carregando}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 }
