@@ -45,7 +45,7 @@ const ItemCardapio = ({ id, nome, descricao, preco, imagem }) => {
           <p className="card__preco">R$ {(preco / 100).toFixed(2)}</p>
         </div>
         <div className="card__imagem">
-          <img src={imagem} />
+          <img src={imagem} alt="Foto produto" />
         </div>
       </div>
       <Backdrop className={classes.backdrop} open={carregando}>

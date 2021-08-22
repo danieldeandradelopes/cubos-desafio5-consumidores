@@ -52,6 +52,7 @@ const Cardapio = () => {
 
   useEffect(() => {
     loading();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

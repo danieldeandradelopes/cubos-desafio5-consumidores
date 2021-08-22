@@ -30,6 +30,7 @@ const HeaderConsumidor = () => {
       id_restaurante &&
       restaurantes.filter((r) => r.id === Number(id_restaurante));
     gravarRestauranteLocal(restaurante && restaurante[0]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
