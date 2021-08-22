@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import TagPedidoMinimo from "../TagPedidoMinimo";
 import TagTempoEntrega from "../TagTempoEntrega";
 
-import CardProduto from "../../componentes/CardProduto";
+import ItemCardapio from "../ItensCardapio";
 import SemPratos from "../SemPratos";
 
 import Backdrop from "@material-ui/core/Backdrop";
@@ -28,7 +28,6 @@ const Cardapio = () => {
   const { handleExibirCardapio } = UseFetch();
   const { id_restaurante } = useParams();
   const classes = useStyles();
-  console.log(produtos);
 
   const loading = async () => {
     setCarregando(true);
@@ -67,7 +66,7 @@ const Cardapio = () => {
       <div className="cardapio__lista__produtos">
         {produtos.length ? (
           produtos.map((p) => (
-            <CardProduto
+            <ItemCardapio
               key={p.id}
               nome={p.nome}
               descricao={p.descricao}
