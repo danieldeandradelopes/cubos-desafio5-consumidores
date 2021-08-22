@@ -13,7 +13,7 @@ const CardRestaurante = ({ id, nome, descricao, preco, imagem }) => {
           <p className="card__preco">$$</p>
         </div>
         <div className="card__imagem">
-          <img src={imagem} />
+          <img src={imagem} alt="Logo restaurante" />
         </div>
       </div>
     </div>

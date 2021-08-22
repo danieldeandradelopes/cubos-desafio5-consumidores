@@ -14,6 +14,7 @@ const Restaurantes = () => {
 
   useEffect(() => {
     handleListarRestaurantes();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const resultado =
