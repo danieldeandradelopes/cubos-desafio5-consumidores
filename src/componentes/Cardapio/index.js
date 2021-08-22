@@ -25,7 +25,7 @@ const Cardapio = () => {
   const [restaurante, setRestaurante] = useState([]);
   const [produtos, setProdutos] = useState([]);
   const [carregando, setCarregando] = useState(false);
-  const { handleExibirCardapio } = UseFetch();
+  const { handleExibirCardapio, setAbrirCarrinho } = UseFetch();
   const { id_restaurante } = useParams();
   const classes = useStyles();
 
@@ -58,7 +58,7 @@ const Cardapio = () => {
   return (
     <div className="cardapio">
       <div className="cardapio__btn__revisar">
-        <button>Revisar Pedido</button>
+        <button onClick={() => setAbrirCarrinho(true)}>Revisar Pedido</button>
       </div>
       <div className="cardapio__info">
         <TagPedidoMinimo valorPedidoMinimo={restaurante.valor_minimo_pedido} />

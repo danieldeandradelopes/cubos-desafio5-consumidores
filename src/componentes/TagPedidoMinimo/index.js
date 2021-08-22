@@ -1,6 +1,9 @@
 import { ReactComponent as SifraoIcon } from "../../assets/sifrao.svg";
+import { useLocalStorage } from "react-use";
 
-const TagPedidoMinimo = ({ valorPedidoMinimo }) => {
+const TagPedidoMinimo = () => {
+  const [restauranteLocal] = useLocalStorage("dadosRestaurante");
+
   return (
     <div className="flex-row content-center">
       <SifraoIcon />
@@ -8,7 +11,7 @@ const TagPedidoMinimo = ({ valorPedidoMinimo }) => {
         <span className="text-bold mg-left-9 color-text-tag ">
           Pedido Mínimo:
         </span>
-        {` R$ ${(valorPedidoMinimo / 100).toFixed(2)}`}
+        {` R$ ${(restauranteLocal.valor_minimo_pedido / 100).toFixed(2)}`}
       </p>
     </div>
   );

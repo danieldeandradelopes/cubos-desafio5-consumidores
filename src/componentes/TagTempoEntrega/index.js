@@ -1,5 +1,8 @@
 import { ReactComponent as TimeIcon } from "../../assets/time.svg";
-const TagTempoEntrega = ({ tempoEntrega }) => {
+import { useLocalStorage } from "react-use";
+
+const TagTempoEntrega = () => {
+  const [restauranteLocal] = useLocalStorage("dadosRestaurante");
   return (
     <div className="flex-row content-center ">
       <TimeIcon />
@@ -7,7 +10,7 @@ const TagTempoEntrega = ({ tempoEntrega }) => {
         <span className="text-bold mg-left-9 color-text-tag">
           Tempo de Entrega:
         </span>
-        {` ${tempoEntrega}`}
+        {` ${restauranteLocal.tempo_entrega_minutos}`}
       </p>
     </div>
   );

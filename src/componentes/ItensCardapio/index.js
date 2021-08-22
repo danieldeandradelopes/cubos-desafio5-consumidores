@@ -17,8 +17,7 @@ export const useStyles = makeStyles((theme) => ({
 
 const ItemCardapio = ({ id, nome, descricao, preco, imagem }) => {
   const [carregando, setCarregando] = useState(false);
-
-  const { setAbrirCard, abrirCard } = UseFetch();
+  const { setAbrirCard } = UseFetch();
 
   const classes = useStyles();
 
@@ -27,7 +26,7 @@ const ItemCardapio = ({ id, nome, descricao, preco, imagem }) => {
       className="item__cardapio"
       onClick={() => {
         setCarregando(true);
-        setAbrirCard((prev) => !prev);
+        setAbrirCard(true);
         setCarregando(false);
       }}
     >
@@ -37,6 +36,7 @@ const ItemCardapio = ({ id, nome, descricao, preco, imagem }) => {
         descricao={descricao}
         preco={preco}
         imagem={imagem}
+        setAbrirCard={setAbrirCard}
       />
       <div className="card__front">
         <div>

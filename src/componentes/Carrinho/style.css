@@ -69,7 +69,7 @@
   border-radius: 5px;
 }
 
-.modal-endereco {
+.link-endereco {
   color: #aa320f;
 }
 
@@ -108,4 +108,10 @@
 
 .margem-top {
   margin-top: 100px;
+}
+
+.cor-fechar-modal {
+  color: #d13201;
+  top: 150px;
+  left: 1160px;
 }

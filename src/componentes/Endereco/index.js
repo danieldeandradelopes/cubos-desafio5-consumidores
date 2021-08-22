@@ -66,7 +66,7 @@ const ModalEndereco = () => {
       });
       return;
     }
-    const enderecoSetado = `${gravarConsumidor.endereco.endereco} + ${gravarConsumidor.endereco.complemento} + ${gravarConsumidor.endereco.cep}`;
+    const enderecoSetado = `${resposta.endereco}, ${resposta.complemento}, ${resposta.cep}`;
     setEndereco(enderecoSetado);
     setCarregando(false);
   };
