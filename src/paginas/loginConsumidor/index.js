@@ -108,7 +108,7 @@ export default function ConsumidorLogin() {
           </spam>
         </div>
       </form>
-      <CarrinhoModal />
+
       <Backdrop className={classes.backdrop} open={carregando}>
         <CircularProgress color="inherit" />
       </Backdrop>

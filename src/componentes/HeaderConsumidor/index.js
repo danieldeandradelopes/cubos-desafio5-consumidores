@@ -27,7 +27,7 @@ const HeaderConsumidor = () => {
         style={{ cursor: "pointer" }}
       />
       <div className="header__conteudo">
-        <h1 className="nome_restaurante"></h1>
+        <h1 className="nome_restaurante">Restaurantes</h1>
         <button onClick={() => handleLogout()}>
           <span className="logout_btn">Logout</span>
         </button>
