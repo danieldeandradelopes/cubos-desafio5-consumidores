@@ -8,8 +8,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import { UseFetch } from "../../contexto/regraDeNegocio";
 import TagPedidoMinimo from "../TagPedidoMinimo";
 import TagTempoEntrega from "../TagTempoEntrega";
+import { useLocalStorage } from "react-use";
 
 function CardProduto({ id, nome, descricao, preco, imagem }) {
+  const [restauranteLocal] = useLocalStorage("dadosRestaurante");
   const [produtoAdd, setProdutoAdd] = useState(false);
   const [carregando, setCarregando] = useState(false);
   const {
@@ -68,7 +70,7 @@ function CardProduto({ id, nome, descricao, preco, imagem }) {
   }));
 
   const classes = useStyles();
-
+  console.log(abrirCard);
   return (
     <div className={abrirCard ? "overlay" : "fechado"}>
       <div className="modal_produto">
@@ -80,7 +82,7 @@ function CardProduto({ id, nome, descricao, preco, imagem }) {
           />
           <img
             className="imagem-restaurante"
-            src={imagem}
+            src={restauranteLocal.imagem}
             alt="imagem-restaurante"
           />
           <button className="fechar-modal" onClick={() => fecharModalProduto()}>
@@ -99,8 +101,8 @@ function CardProduto({ id, nome, descricao, preco, imagem }) {
               <div className="flex-column">
                 <h1 className="titulo-produto">{nome}</h1>
                 <div className="componente-pedido-entrega">
-                  <TagPedidoMinimo />
-                  <TagTempoEntrega />
+                  <TagPedidoMinimo valorPedidoMinimo />
+                  <TagTempoEntrega tempoEntrega />
                 </div>
                 <div className="flex-row space-between">
                   <div>

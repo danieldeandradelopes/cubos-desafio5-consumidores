@@ -11,7 +11,7 @@ import { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { toast } from "react-toastify";
-import CarrinhoModal from "../../componentes/Carrinho";
+import ModalEndereco from "../../componentes/Endereco";
 
 const schema = yup.object().shape({
   email: yup
@@ -61,7 +61,7 @@ export default function ConsumidorLogin() {
     }
     setGravarConsumidor(resposta);
     setCarregando(false);
-    history.push("/lista-restaurantes");
+    history.push("/");
     toast.success(`Olá, ${resposta.consumidor.nome}`, {
       position: "top-right",
       autoClose: 5000,
@@ -108,7 +108,7 @@ export default function ConsumidorLogin() {
           </spam>
         </div>
       </form>
-
+      <ModalEndereco />
       <Backdrop className={classes.backdrop} open={carregando}>
         <CircularProgress color="inherit" />
       </Backdrop>

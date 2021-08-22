@@ -1,25 +1,44 @@
 import "./style.css";
 import { ReactComponent as CarrinhoSVG } from "../../assets/carrinho.svg";
 import { UseFetch } from "../../contexto/regraDeNegocio";
+import { UseClientAuth } from "../../contexto/autorizacao";
 import carrinhoVazio from "../../assets/carrinho-vazio.png";
 import pedidoEnviado from "../../assets/carrinho-enviado.png";
 import ItemCarrinho from "./ItemCarrinho";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { makeStyles } from "@material-ui/core/styles";
+import { toast } from "react-toastify";
+import { useLocalStorage } from "react-use";
 
-function CarrinhoModal({ nomeRestaurante, tempoEntrega, taxaEntrega }) {
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+  },
+}));
+
+function CarrinhoModal() {
   const {
     carrinho,
+    setCarrinho,
     endereco,
+    setEndereco,
     abrirCarrinho,
     setAbrirCarrinho,
     setAbrirEndereco,
-    handleEnviarPedido,
+    handlePedido,
   } = UseFetch();
+  const { gravarConsumidor } = UseClientAuth();
   const [carrinhoEnviado, setCarrinhoEnviado] = useState(false);
   const [subTotal, setSubTotal] = useState(0);
   const [total, setTotal] = useState(0);
+  const [carregando, setCarregando] = useState();
+  const classes = useStyles();
+  const [restauranteLocal] = useLocalStorage("dadosRestaurante");
 
   function addEndereco() {
     setAbrirCarrinho(false);
@@ -27,19 +46,33 @@ function CarrinhoModal({ nomeRestaurante, tempoEntrega, taxaEntrega }) {
   }
 
   useEffect(() => {
-    const valores = [...carrinho];
-    const precos = [];
-    for (const item of valores) {
-      precos.push(item.preco);
+    if (gravarConsumidor.endereco?.endereco) {
+      const enderecoSetado = `${gravarConsumidor.endereco.endereco}, ${gravarConsumidor.endereco.complemento}, ${gravarConsumidor.endereco.cep}`;
+      setEndereco(enderecoSetado);
+      return;
     }
-    const subtotal = precos.reduce((acc, x) => acc + x);
-    setSubTotal(subtotal);
+  }, []);
 
-    const taxa = (taxaEntrega / 100).toFixed(2);
-    setTotal(subtotal + taxa);
+  useEffect(() => {
+    if (carrinho.length !== 0) {
+      const valores = [...carrinho];
+      const precos = [];
+      for (const item of valores) {
+        precos.push(item.preco);
+      }
+      const subtotal = precos.reduce((acc, x) => acc + x);
+      setSubTotal(subtotal);
+
+      const taxa = (restauranteLocal.taxa_entrega / 100).toFixed(2);
+      setTotal(subtotal + taxa);
+    }
   }, []);
 
   function enviarPedido() {
+    if (!endereco) {
+      alert("Endereço não fornecido");
+      return;
+    }
     const pedidos = [...carrinho];
     pedidos.map((p) => {
       delete p.nome;
@@ -48,7 +81,35 @@ function CarrinhoModal({ nomeRestaurante, tempoEntrega, taxaEntrega }) {
     });
 
     handleEnviarPedido(pedidos);
+  }
+
+  const handleEnviarPedido = async (data) => {
+    setCarregando(true);
+    const resposta = await handlePedido(data);
+
+    if (resposta.erro) {
+      setCarregando(false);
+      toast.error(resposta.erro, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
+    setCarregando(false);
     setCarrinhoEnviado(true);
+  };
+
+  function fecharModalCarrinho() {
+    setAbrirCarrinho(false);
+    if (carrinhoEnviado) {
+      setCarrinhoEnviado(false);
+      setCarrinho(false);
+    }
   }
 
   return (
@@ -56,7 +117,13 @@ function CarrinhoModal({ nomeRestaurante, tempoEntrega, taxaEntrega }) {
       <div className="modal_carrinho">
         <div className="flex-row">
           <CarrinhoSVG />
-          <h1 className="restaurante-carrinho">{nomeRestaurante}</h1>
+          <h1 className="restaurante-carrinho">{restauranteLocal.nome}</h1>
+          <button
+            className="fechar-modal cor-fechar-modal"
+            onClick={() => fecharModalCarrinho()}
+          >
+            &times;
+          </button>
         </div>
         {endereco ? (
           <spam className="endereco-carrinho">
@@ -64,12 +131,12 @@ function CarrinhoModal({ nomeRestaurante, tempoEntrega, taxaEntrega }) {
           </spam>
         ) : (
           <div className="adicionar-endereco">
-            <Link className="modal-endereco" onClick={() => addEndereco()}>
+            <Link className="link-endereco" onClick={() => addEndereco()}>
               Adicionar Endereço
             </Link>
           </div>
         )}
-        {carrinho.length === 1 ? (
+        {carrinho.length === 0 ? (
           <div className="flex-row content-center item-center w-h-100">
             <img
               className="carrinho-vazio"
@@ -94,7 +161,7 @@ function CarrinhoModal({ nomeRestaurante, tempoEntrega, taxaEntrega }) {
         ) : (
           <div className="flex-column item-center content-center">
             <p className="margem-tempo-entrega">
-              Tempo de entrega: {tempoEntrega}
+              Tempo de entrega: {restauranteLocal.valor_minimo_pedido}
             </p>
             {carrinho.map((item) => (
               <ItemCarrinho
@@ -118,7 +185,7 @@ function CarrinhoModal({ nomeRestaurante, tempoEntrega, taxaEntrega }) {
               </div>
               <div className="valores-carrinho">
                 <p className="titulos-valores">Taxa de entrega</p>
-                <p>R$ {(taxaEntrega / 100).toFixed(2)}</p>
+                <p>R$ {(restauranteLocal.taxa_entrega / 100).toFixed(2)}</p>
               </div>
               <div className="valores-carrinho">
                 <p className="titulos-valores">Total</p>
@@ -131,6 +198,9 @@ function CarrinhoModal({ nomeRestaurante, tempoEntrega, taxaEntrega }) {
           </div>
         )}
       </div>
+      <Backdrop className={classes.backdrop} open={carregando}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 }

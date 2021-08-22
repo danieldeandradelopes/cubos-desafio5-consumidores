@@ -92,6 +92,42 @@ export function FetchProvider({ children }) {
     return data;
   };
 
+  const handleEndereco = async (data) => {
+    const body = JSON.stringify(data);
+    const response = await fetch(
+      "https://desafio5backconsumidor.herokuapp.com/add_endereco",
+      {
+        method: "POST",
+        headers: {
+          accept: "application/json",
+          "content-type": "application/json",
+          authorization: `Bearer ${gravarConsumidor.token}`,
+        },
+        body,
+      }
+    );
+    const result = await response.json();
+    return result;
+  };
+
+  const handlePedido = async (data) => {
+    const body = JSON.stringify(data);
+    const response = await fetch(
+      `https://desafio5backconsumidor.herokuapp.com/restaurantes/${restaurantes.id}/pedidos`,
+      {
+        method: "POST",
+        headers: {
+          accept: "application/json",
+          "content-type": "application/json",
+          authorization: `Bearer ${gravarConsumidor.token}`,
+        },
+        body,
+      }
+    );
+    const result = await response.json();
+    return result;
+  };
+
   return (
     <FetchContext.Provider
       value={{
@@ -115,6 +151,8 @@ export function FetchProvider({ children }) {
         setProdutoNoCarrinho,
         abrirEndereco,
         setAbrirEndereco,
+        handleEndereco,
+        handlePedido,
       }}
     >
       {children}
@@ -144,6 +182,8 @@ export function UseFetch() {
     setProdutoNoCarrinho,
     abrirEndereco,
     setAbrirEndereco,
+    handleEndereco,
+    handlePedido,
   } = useContext(FetchContext);
 
   return {
@@ -167,5 +207,7 @@ export function UseFetch() {
     setProdutoNoCarrinho,
     abrirEndereco,
     setAbrirEndereco,
+    handleEndereco,
+    handlePedido,
   };
 }

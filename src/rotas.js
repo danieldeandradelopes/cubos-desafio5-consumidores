@@ -33,11 +33,7 @@ function Rotas() {
             <Route exact path="/consumidor-login" component={ConsumidorLogin} />
             <Route path="/consumidor-cadastro" component={ConsumidorCadastro} />
             <ClientAuthPath>
-              <Route
-                exact
-                path="/lista-restaurantes"
-                component={ListaRestaurantes}
-              />
+              <Route exact path="/" component={ListaRestaurantes} />
               <Route
                 path="/cardapio/:id_restaurante"
                 component={CardapioRestaurante}
