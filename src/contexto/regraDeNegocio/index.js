@@ -92,6 +92,25 @@ export function FetchProvider({ children }) {
     return data;
   };
 
+  const handleEndereco = async (data) => {
+    const body = JSON.stringify(data);
+    console.log(body);
+    const response = await fetch(
+      "https://desafio5backconsumidor.herokuapp.com/add_endereco",
+      {
+        method: "POST",
+        headers: {
+          accept: "application/json",
+          "content-type": "application/json",
+          authorization: `Bearer ${gravarConsumidor.token}`,
+        },
+        body,
+      }
+    );
+    const result = await response.json();
+    return result;
+  };
+
   return (
     <FetchContext.Provider
       value={{
@@ -115,6 +134,7 @@ export function FetchProvider({ children }) {
         setProdutoNoCarrinho,
         abrirEndereco,
         setAbrirEndereco,
+        handleEndereco,
       }}
     >
       {children}
@@ -144,6 +164,7 @@ export function UseFetch() {
     setProdutoNoCarrinho,
     abrirEndereco,
     setAbrirEndereco,
+    handleEndereco,
   } = useContext(FetchContext);
 
   return {
@@ -167,5 +188,6 @@ export function UseFetch() {
     setProdutoNoCarrinho,
     abrirEndereco,
     setAbrirEndereco,
+    handleEndereco,
   };
 }

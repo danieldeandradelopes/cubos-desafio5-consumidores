@@ -1,6 +1,7 @@
 import "./style.css";
 import { ReactComponent as CarrinhoSVG } from "../../assets/carrinho.svg";
 import { UseFetch } from "../../contexto/regraDeNegocio";
+import { UseClientAuth } from "../../contexto/autorizacao";
 import carrinhoVazio from "../../assets/carrinho-vazio.png";
 import pedidoEnviado from "../../assets/carrinho-enviado.png";
 import ItemCarrinho from "./ItemCarrinho";
@@ -12,11 +13,13 @@ function CarrinhoModal({ nomeRestaurante, tempoEntrega, taxaEntrega }) {
   const {
     carrinho,
     endereco,
+    setEndereco,
     abrirCarrinho,
     setAbrirCarrinho,
     setAbrirEndereco,
     handleEnviarPedido,
   } = UseFetch();
+  const { gravarConsumidor } = UseClientAuth();
   const [carrinhoEnviado, setCarrinhoEnviado] = useState(false);
   const [subTotal, setSubTotal] = useState(0);
   const [total, setTotal] = useState(0);
@@ -27,19 +30,33 @@ function CarrinhoModal({ nomeRestaurante, tempoEntrega, taxaEntrega }) {
   }
 
   useEffect(() => {
-    const valores = [...carrinho];
-    const precos = [];
-    for (const item of valores) {
-      precos.push(item.preco);
+    if (gravarConsumidor.endereco.endereco) {
+      const enderecoSetado = `${gravarConsumidor.endereco.endereco} + ${gravarConsumidor.endereco.complemento} + ${gravarConsumidor.endereco.cep}`;
+      setEndereco(enderecoSetado);
+      return;
     }
-    const subtotal = precos.reduce((acc, x) => acc + x);
-    setSubTotal(subtotal);
+  }, []);
 
-    const taxa = (taxaEntrega / 100).toFixed(2);
-    setTotal(subtotal + taxa);
+  useEffect(() => {
+    if (carrinho.length !== 0) {
+      const valores = [...carrinho];
+      const precos = [];
+      for (const item of valores) {
+        precos.push(item.preco);
+      }
+      const subtotal = precos.reduce((acc, x) => acc + x);
+      setSubTotal(subtotal);
+
+      const taxa = (taxaEntrega / 100).toFixed(2);
+      setTotal(subtotal + taxa);
+    }
   }, []);
 
   function enviarPedido() {
+    if (!endereco) {
+      alert("ENdereço não fornecido");
+      return;
+    }
     const pedidos = [...carrinho];
     pedidos.map((p) => {
       delete p.nome;
@@ -69,7 +86,7 @@ function CarrinhoModal({ nomeRestaurante, tempoEntrega, taxaEntrega }) {
             </Link>
           </div>
         )}
-        {carrinho.length === 1 ? (
+        {carrinho.length === 0 ? (
           <div className="flex-row content-center item-center w-h-100">
             <img
               className="carrinho-vazio"
