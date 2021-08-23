@@ -9,7 +9,7 @@ export function FetchProvider({ children }) {
   const [restaurantes, setRestaurantes] = useState([]);
   const [abrirCard, setAbrirCard] = useState(false);
   const [carrinho, setCarrinho] = useState([]);
-  const [endereco, setEndereco] = useState();
+  const [endereco, setEndereco] = useState([]);
   const [abrirCarrinho, setAbrirCarrinho] = useState(false);
   const [quantidade, setQuantidade] = useState(0);
   const [abrirEndereco, setAbrirEndereco] = useState(false);
@@ -120,13 +120,12 @@ export function FetchProvider({ children }) {
   };
 
   const handlePedido = async (data) => {
-    const produtos = JSON.stringify(data);
-    const produtosFormatados = { produtos: produtos };
-    const body = JSON.stringify(produtosFormatados);
+    const body = JSON.stringify(data);
 
     const response = await fetch(
       `https://desafio5backconsumidor.herokuapp.com/restaurantes/${restauranteLocal.id}/pedidos`,
       {
+
         method: "POST",
         headers: {
           accept: "application/json",

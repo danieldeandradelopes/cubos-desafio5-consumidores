@@ -110,8 +110,12 @@
   margin-top: 100px;
 }
 
-.cor-fechar-modal {
+.fechar-carrinho {
+  all: unset;
+  font-size: 35pt;
   color: #d13201;
-  top: 150px;
-  left: 1160px;
+  padding: 0;
+  margin: -50px -15px 0px auto;
+  cursor: pointer;
+
 }
