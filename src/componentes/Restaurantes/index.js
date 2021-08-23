@@ -18,7 +18,7 @@ const Restaurantes = () => {
   }, []);
 
   const resultado =
-    restaurantes.length &&
+    restaurantes.length > 0 &&
     restaurantes.filter((r) =>
       r.nome.toLowerCase().includes(filtro.toLowerCase())
     );

@@ -8,10 +8,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { UseFetch } from "../../contexto/regraDeNegocio";
 import TagPedidoMinimo from "../TagPedidoMinimo";
 import TagTempoEntrega from "../TagTempoEntrega";
-import { useLocalStorage } from "react-use";
 
-function CardProduto({ id, nome, descricao, preco, imagem }) {
-  const [restauranteLocal] = useLocalStorage("dadosRestaurante");
+function CardProduto() {
   const [produtoAdd, setProdutoAdd] = useState(false);
   const [carregando, setCarregando] = useState(false);
   const {
@@ -20,8 +18,10 @@ function CardProduto({ id, nome, descricao, preco, imagem }) {
     quantidade,
     setQuantidade,
     setAbrirCarrinho,
-    produtoNoCarrinho,
-    setProdutoNoCarrinho,
+    carrinho,
+    setCarrinho,
+    itemClick,
+    restauranteLocal,
   } = UseFetch();
 
   function contador(soma) {
@@ -48,18 +48,21 @@ function CardProduto({ id, nome, descricao, preco, imagem }) {
       return;
     }
 
-    const adicionarProduto = [...produtoNoCarrinho];
+    const { id, nome, preco, imagem } = itemClick;
+    const adicionarProduto = [...carrinho];
 
     const produto = adicionarProduto.find((item) => item.id === id);
     if (produto) {
       produto.quantidade += quantidade;
-      setProdutoNoCarrinho(adicionarProduto);
+      setCarrinho(adicionarProduto);
+      setProdutoAdd(true);
       return;
     }
 
     adicionarProduto.push({ quantidade, id, nome, preco, imagem });
-    setProdutoNoCarrinho(adicionarProduto);
+    setCarrinho(adicionarProduto);
     setProdutoAdd(true);
+    console.log(produtoAdd);
   }
 
   const useStyles = makeStyles((theme) => ({
@@ -70,19 +73,19 @@ function CardProduto({ id, nome, descricao, preco, imagem }) {
   }));
 
   const classes = useStyles();
-  console.log(abrirCard);
+
   return (
     <div className={abrirCard ? "overlay" : "fechado"}>
       <div className="modal_produto">
         <div className="flex-column relative">
           <img
             className="imagem-produto item-center"
-            src={imagem}
+            src={itemClick.imagem}
             alt="imagem-produto"
           />
           <img
             className="imagem-restaurante"
-            src={restauranteLocal.imagem}
+            src={restauranteLocal && restauranteLocal.imagem}
             alt="imagem-restaurante"
           />
           <button className="fechar-modal" onClick={() => fecharModalProduto()}>
@@ -99,17 +102,17 @@ function CardProduto({ id, nome, descricao, preco, imagem }) {
               </div>
             ) : (
               <div className="flex-column">
-                <h1 className="titulo-produto">{nome}</h1>
+                <h1 className="titulo-produto">{itemClick.nome}</h1>
                 <div className="componente-pedido-entrega">
                   <TagPedidoMinimo valorPedidoMinimo />
                   <TagTempoEntrega tempoEntrega />
                 </div>
                 <div className="flex-row space-between">
                   <div>
-                    <p>{descricao}</p>
+                    <p>{itemClick.descricao}</p>
                   </div>
                   <div className="preco-produto">
-                    R$ {(preco / 100).toFixed(2)}
+                    R$ {(itemClick.preco / 100).toFixed(2)}
                   </div>
                 </div>
                 <div className="flex-row space-between paddingY">
