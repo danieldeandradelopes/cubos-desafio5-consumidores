@@ -127,9 +127,9 @@ export default function ConsumidorCadastro() {
         <p className="erro__input">{errors.confirmarSenha?.message}</p>
         <div className="flex-column item-center cadastrar">
           <button className="botao-principal-login">Enviar</button>
-          <spam className="cadastrar">
+          <span className="cadastrar">
             Já tem uma conta? <Link to="/consumidor-login">Login</Link>
-          </spam>
+          </span>
         </div>
       </form>
       <Backdrop className={classes.backdrop} open={carregando}>

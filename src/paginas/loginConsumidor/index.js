@@ -102,10 +102,10 @@ export default function ConsumidorLogin() {
         />
         <div className="flex-column item-center cadastrar">
           <button className="botao-principal-login">Enviar</button>
-          <spam className="cadastrar">
+          <span className="cadastrar">
             Ainda não tem uma conta?{" "}
             <Link to="/consumidor-cadastro">Cadastre-se</Link>
-          </spam>
+          </span>
         </div>
       </form>
       <ModalEndereco />

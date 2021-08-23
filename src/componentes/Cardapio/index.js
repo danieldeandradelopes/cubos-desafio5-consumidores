@@ -65,10 +65,10 @@ const Cardapio = () => {
         <TagTempoEntrega tempoEntrega={restaurante.tempo_entrega_minutos} />
       </div>
       <div className="cardapio__lista__produtos">
-        {produtos.length ? (
+        {produtos.length !== 0 ? (
           produtos.map((p) => (
             <ItemCardapio
-              key={p.id}
+              id={p.id}
               nome={p.nome}
               descricao={p.descricao}
               preco={p.preco}

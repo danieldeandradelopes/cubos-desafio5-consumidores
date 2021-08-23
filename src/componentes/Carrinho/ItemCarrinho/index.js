@@ -19,7 +19,7 @@ function ItemCarrinho({
       <div className="flex-column">
         <h2 className="nome-produto">{nomeProduto}</h2>
         <p className="quantidade-produto">{quantidade} unidades</p>
-        <p className="preco-produto">{precoProduto}</p>
+        <p className="preco-produto">{(precoProduto / 100).toFixed(2)}</p>
       </div>
     </div>
   );

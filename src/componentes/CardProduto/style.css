@@ -90,6 +90,7 @@
   font-size: 32px;
   border-radius: 8px;
   margin: 8px;
+  cursor: pointer;
 }
 
 .paddingY {
@@ -125,4 +126,5 @@
   position: absolute;
   top: 0;
   right: 50px;
+  cursor: pointer;
 }

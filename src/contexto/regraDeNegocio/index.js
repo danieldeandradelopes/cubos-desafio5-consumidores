@@ -1,5 +1,6 @@
 import { useState, createContext } from "react";
 import { useContext } from "react";
+import { useLocalStorage } from "react-use";
 import { UseClientAuth } from "../autorizacao";
 
 const FetchContext = createContext();
@@ -11,9 +12,17 @@ export function FetchProvider({ children }) {
   const [endereco, setEndereco] = useState();
   const [abrirCarrinho, setAbrirCarrinho] = useState(false);
   const [quantidade, setQuantidade] = useState(0);
-  const [produtoNoCarrinho, setProdutoNoCarrinho] = useState([]);
   const [abrirEndereco, setAbrirEndereco] = useState(false);
   const { gravarConsumidor } = UseClientAuth();
+  const [itemClick, setItemClick] = useState({
+    id: "",
+    nome: "",
+    descricao: "",
+    preco: "",
+    imagem: "",
+  });
+  const [restauranteLocal, gravarRestauranteLocal, removerRestauranteLocal] =
+    useLocalStorage("dadosRestaurante", "");
 
   async function handleLoginConsumidor(data) {
     const body = JSON.stringify(data);
@@ -111,9 +120,12 @@ export function FetchProvider({ children }) {
   };
 
   const handlePedido = async (data) => {
-    const body = JSON.stringify(data);
+    const produtos = JSON.stringify(data);
+    const produtosFormatados = { produtos: produtos };
+    const body = JSON.stringify(produtosFormatados);
+
     const response = await fetch(
-      `https://desafio5backconsumidor.herokuapp.com/restaurantes/${restaurantes.id}/pedidos`,
+      `https://desafio5backconsumidor.herokuapp.com/restaurantes/${restauranteLocal.id}/pedidos`,
       {
         method: "POST",
         headers: {
@@ -147,12 +159,15 @@ export function FetchProvider({ children }) {
         abrirCarrinho,
         setAbrirCarrinho,
         handleExibirCardapio,
-        produtoNoCarrinho,
-        setProdutoNoCarrinho,
         abrirEndereco,
         setAbrirEndereco,
         handleEndereco,
         handlePedido,
+        restauranteLocal,
+        gravarRestauranteLocal,
+        removerRestauranteLocal,
+        itemClick,
+        setItemClick,
       }}
     >
       {children}
@@ -178,12 +193,15 @@ export function UseFetch() {
     abrirCarrinho,
     setAbrirCarrinho,
     handleExibirCardapio,
-    produtoNoCarrinho,
-    setProdutoNoCarrinho,
     abrirEndereco,
     setAbrirEndereco,
     handleEndereco,
     handlePedido,
+    restauranteLocal,
+    gravarRestauranteLocal,
+    removerRestauranteLocal,
+    itemClick,
+    setItemClick,
   } = useContext(FetchContext);
 
   return {
@@ -203,11 +221,14 @@ export function UseFetch() {
     abrirCarrinho,
     setAbrirCarrinho,
     handleExibirCardapio,
-    produtoNoCarrinho,
-    setProdutoNoCarrinho,
     abrirEndereco,
     setAbrirEndereco,
     handleEndereco,
     handlePedido,
+    restauranteLocal,
+    gravarRestauranteLocal,
+    removerRestauranteLocal,
+    itemClick,
+    setItemClick,
   };
 }

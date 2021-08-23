@@ -1,8 +1,8 @@
 import { ReactComponent as TimeIcon } from "../../assets/time.svg";
-import { useLocalStorage } from "react-use";
+import { UseFetch } from "../../contexto/regraDeNegocio";
 
 const TagTempoEntrega = () => {
-  const [restauranteLocal] = useLocalStorage("dadosRestaurante");
+  const { restauranteLocal } = UseFetch();
   return (
     <div className="flex-row content-center ">
       <TimeIcon />
@@ -10,7 +10,7 @@ const TagTempoEntrega = () => {
         <span className="text-bold mg-left-9 color-text-tag">
           Tempo de Entrega:
         </span>
-        {` ${restauranteLocal.tempo_entrega_minutos}`}
+        {` ${restauranteLocal && restauranteLocal.tempo_entrega_minutos}`}
       </p>
     </div>
   );

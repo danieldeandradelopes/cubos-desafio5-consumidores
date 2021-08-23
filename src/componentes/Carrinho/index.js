@@ -12,7 +12,6 @@ import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import { toast } from "react-toastify";
-import { useLocalStorage } from "react-use";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -31,6 +30,7 @@ function CarrinhoModal() {
     setAbrirCarrinho,
     setAbrirEndereco,
     handlePedido,
+    restauranteLocal,
   } = UseFetch();
   const { gravarConsumidor } = UseClientAuth();
   const [carrinhoEnviado, setCarrinhoEnviado] = useState(false);
@@ -38,7 +38,6 @@ function CarrinhoModal() {
   const [total, setTotal] = useState(0);
   const [carregando, setCarregando] = useState();
   const classes = useStyles();
-  const [restauranteLocal] = useLocalStorage("dadosRestaurante");
 
   function addEndereco() {
     setAbrirCarrinho(false);
@@ -55,33 +54,23 @@ function CarrinhoModal() {
 
   useEffect(() => {
     if (carrinho.length !== 0) {
-      const valores = [...carrinho];
+      const valores = carrinho.length !== 0 && [...carrinho];
       const precos = [];
       for (const item of valores) {
-        precos.push(item.preco);
+        precos.push(item.preco * item.quantidade);
       }
-      const subtotal = precos.reduce((acc, x) => acc + x);
-      setSubTotal(subtotal);
 
-      const taxa = (restauranteLocal.taxa_entrega / 100).toFixed(2);
-      setTotal(subtotal + taxa);
+      const sub = precos.reduce((acc, x) => acc + x);
+      console.log(sub);
+      const subT = (sub / 100).toFixed(2);
+      setSubTotal(subT);
+
+      const taxa =
+        restauranteLocal && (restauranteLocal.taxa_entrega / 100).toFixed(2);
+      const mostrarTotal = Number(subT) + Number(taxa);
+      setTotal(mostrarTotal);
     }
-  }, []);
-
-  function enviarPedido() {
-    if (!endereco) {
-      alert("Endereço não fornecido");
-      return;
-    }
-    const pedidos = [...carrinho];
-    pedidos.map((p) => {
-      delete p.nome;
-      delete p.imagem;
-      delete p.preco;
-    });
-
-    handleEnviarPedido(pedidos);
-  }
+  }, [carrinho]);
 
   const handleEnviarPedido = async (data) => {
     setCarregando(true);
@@ -100,16 +89,32 @@ function CarrinhoModal() {
       });
       return;
     }
+    console.log(resposta);
     setCarregando(false);
     setCarrinhoEnviado(true);
   };
 
+  function enviarPedido() {
+    if (!endereco) {
+      alert("Endereço não fornecido");
+      return;
+    }
+    const pedidos = [...carrinho];
+    pedidos.map((p) => {
+      delete p.nome;
+      delete p.imagem;
+      delete p.preco;
+    });
+
+    handleEnviarPedido(pedidos);
+  }
+
   function fecharModalCarrinho() {
-    setAbrirCarrinho(false);
     if (carrinhoEnviado) {
       setCarrinhoEnviado(false);
-      setCarrinho(false);
+      setCarrinho([]);
     }
+    setAbrirCarrinho(false);
   }
 
   return (
@@ -117,7 +122,9 @@ function CarrinhoModal() {
       <div className="modal_carrinho">
         <div className="flex-row">
           <CarrinhoSVG />
-          <h1 className="restaurante-carrinho">{restauranteLocal.nome}</h1>
+          <h1 className="restaurante-carrinho">
+            {restauranteLocal && restauranteLocal.nome}
+          </h1>
           <button
             className="fechar-modal cor-fechar-modal"
             onClick={() => fecharModalCarrinho()}
@@ -126,9 +133,10 @@ function CarrinhoModal() {
           </button>
         </div>
         {endereco ? (
-          <spam className="endereco-carrinho">
-            Endereço de entrega: <p className="endereco-api">{endereco}</p>
-          </spam>
+          <span className="endereco-carrinho">
+            Endereço de entrega:
+            <p className="endereco-api">{endereco}</p>
+          </span>
         ) : (
           <div className="adicionar-endereco">
             <Link className="link-endereco" onClick={() => addEndereco()}>
@@ -161,17 +169,19 @@ function CarrinhoModal() {
         ) : (
           <div className="flex-column item-center content-center">
             <p className="margem-tempo-entrega">
-              Tempo de entrega: {restauranteLocal.valor_minimo_pedido}
+              Tempo de entrega:{" "}
+              {restauranteLocal && restauranteLocal.valor_minimo_pedido} minutos
             </p>
-            {carrinho.map((item) => (
-              <ItemCarrinho
-                imagemProduto={item.imagem}
-                nomeProduto={item.nome}
-                quantidade={item.quantidade}
-                precoProduto={item.preco}
-                idProduto={item.id}
-              />
-            ))}
+            {carrinho.length > 0 &&
+              carrinho.map((item) => (
+                <ItemCarrinho
+                  imagemProduto={item.imagem}
+                  nomeProduto={item.nome}
+                  quantidade={item.quantidade}
+                  precoProduto={item.preco}
+                  idProduto={item.id}
+                />
+              ))}
             <Link
               className="pagina-restaurantes"
               onClick={() => setAbrirCarrinho(false)}
@@ -185,7 +195,11 @@ function CarrinhoModal() {
               </div>
               <div className="valores-carrinho">
                 <p className="titulos-valores">Taxa de entrega</p>
-                <p>R$ {(restauranteLocal.taxa_entrega / 100).toFixed(2)}</p>
+                <p>
+                  R${" "}
+                  {restauranteLocal &&
+                    (restauranteLocal.taxa_entrega / 100).toFixed(2)}
+                </p>
               </div>
               <div className="valores-carrinho">
                 <p className="titulos-valores">Total</p>
