@@ -25,7 +25,7 @@ const HeaderConsumidor = () => {
     removeGravarConsumidor();
     removerRestauranteLocal();
     setCarrinho(0);
-    setEndereco();
+    setEndereco("");
     history.push("/consumidor-login");
   };
 

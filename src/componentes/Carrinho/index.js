@@ -39,18 +39,20 @@ function CarrinhoModal() {
   const [carregando, setCarregando] = useState();
   const classes = useStyles();
 
+
   function addEndereco() {
     setAbrirCarrinho(false);
     setAbrirEndereco(true);
   }
 
   useEffect(() => {
-    if (gravarConsumidor.endereco?.endereco) {
+    if (gravarConsumidor.endereco) {
       const enderecoSetado = `${gravarConsumidor.endereco.endereco}, ${gravarConsumidor.endereco.complemento}, ${gravarConsumidor.endereco.cep}`;
       setEndereco(enderecoSetado);
       return;
     }
   }, []);
+
 
   useEffect(() => {
     if (carrinho.length !== 0) {
@@ -61,7 +63,7 @@ function CarrinhoModal() {
       }
 
       const sub = precos.reduce((acc, x) => acc + x);
-      console.log(sub);
+
       const subT = (sub / 100).toFixed(2);
       setSubTotal(subT);
 
@@ -89,14 +91,23 @@ function CarrinhoModal() {
       });
       return;
     }
-    console.log(resposta);
+
     setCarregando(false);
     setCarrinhoEnviado(true);
   };
 
   function enviarPedido() {
-    if (!endereco) {
-      alert("Endereço não fornecido");
+
+    if (!gravarConsumidor.endereco) {
+      toast.error("Endereço não fornecido", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return;
     }
     const pedidos = [...carrinho];
@@ -106,7 +117,12 @@ function CarrinhoModal() {
       delete p.preco;
     });
 
-    handleEnviarPedido(pedidos);
+    const data = {
+      subtotal: subTotal * 100,
+      produtos: pedidos
+    }
+
+    handleEnviarPedido(data);
   }
 
   function fecharModalCarrinho() {
@@ -120,19 +136,19 @@ function CarrinhoModal() {
   return (
     <div className={abrirCarrinho ? "overlay" : "fechado"}>
       <div className="modal_carrinho">
+        <button
+          className="fechar-carrinho"
+          onClick={() => fecharModalCarrinho()}
+        >
+          &times;
+        </button>
         <div className="flex-row">
           <CarrinhoSVG />
           <h1 className="restaurante-carrinho">
             {restauranteLocal && restauranteLocal.nome}
           </h1>
-          <button
-            className="fechar-modal cor-fechar-modal"
-            onClick={() => fecharModalCarrinho()}
-          >
-            &times;
-          </button>
         </div>
-        {endereco ? (
+        {gravarConsumidor.endereco ? (
           <span className="endereco-carrinho">
             Endereço de entrega:
             <p className="endereco-api">{endereco}</p>
@@ -161,7 +177,10 @@ function CarrinhoModal() {
             />
             <button
               className="btn__laranja margem-auto"
-              onClick={() => setAbrirCarrinho(false)}
+              onClick={() => {
+                setAbrirCarrinho(false);
+                setCarrinho([])
+              }}
             >
               Voltar para o cardápio
             </button>

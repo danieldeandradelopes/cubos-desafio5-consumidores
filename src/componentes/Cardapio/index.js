@@ -63,6 +63,7 @@ const Cardapio = () => {
       <div className="cardapio__info">
         <TagPedidoMinimo valorPedidoMinimo={restaurante.valor_minimo_pedido} />
         <TagTempoEntrega tempoEntrega={restaurante.tempo_entrega_minutos} />
+        <div>{restaurante.descricao}</div>
       </div>
       <div className="cardapio__lista__produtos">
         {produtos.length !== 0 ? (

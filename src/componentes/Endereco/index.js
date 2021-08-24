@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 const ModalEndereco = () => {
   const [carregando, setCarregando] = useState();
   const { handleEndereco } = UseFetch();
-  const { gravarConsumidor } = UseClientAuth();
+  const { gravarConsumidor, setGravarConsumidor } = UseClientAuth();
   const classes = useStyles();
   const {
     abrirEndereco,
@@ -66,8 +66,13 @@ const ModalEndereco = () => {
       });
       return;
     }
+
     const enderecoSetado = `${resposta.endereco}, ${resposta.complemento}, ${resposta.cep}`;
     setEndereco(enderecoSetado);
+
+    gravarConsumidor.endereco = resposta;
+
+    setGravarConsumidor(gravarConsumidor);
     setCarregando(false);
   };
 
@@ -82,7 +87,7 @@ const ModalEndereco = () => {
             X
           </span>
           <h2 className="titulo-endereco">Adicionar Endereço</h2>
-          {endereco ? (
+          {gravarConsumidor.endereco ? (
             <div className="div-sucesso flex-column item-center">
               <img src={Sucesso} alt="" />
               <button className="btn__laranja" onClick={() => carrinho()}>
