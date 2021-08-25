@@ -15,7 +15,7 @@ const HeaderConsumidor = () => {
     restauranteLocal,
 
     removerRestauranteLocal,
-    setCarrinho,
+    removeGravarCarrinho,
   } = UseFetch();
   const path = window.location.pathname;
 
@@ -24,7 +24,7 @@ const HeaderConsumidor = () => {
   const handleLogout = () => {
     removeGravarConsumidor();
     removerRestauranteLocal();
-    setCarrinho(0);
+    removeGravarCarrinho(0);
     setEndereco("");
     history.push("/consumidor-login");
   };

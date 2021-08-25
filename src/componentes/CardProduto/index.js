@@ -18,8 +18,8 @@ function CardProduto() {
     quantidade,
     setQuantidade,
     setAbrirCarrinho,
-    carrinho,
-    setCarrinho,
+    gravarCarrinho,
+    setGravarCarrinho,
     itemClick,
     restauranteLocal,
   } = UseFetch();
@@ -49,20 +49,19 @@ function CardProduto() {
     }
 
     const { id, nome, preco, imagem } = itemClick;
-    const adicionarProduto = [...carrinho];
+    const adicionarProduto = [...gravarCarrinho];
 
     const produto = adicionarProduto.find((item) => item.id === id);
     if (produto) {
       produto.quantidade += quantidade;
-      setCarrinho(adicionarProduto);
+      setGravarCarrinho(adicionarProduto);
       setProdutoAdd(true);
       return;
     }
 
     adicionarProduto.push({ quantidade, id, nome, preco, imagem });
-    setCarrinho(adicionarProduto);
+    setGravarCarrinho(adicionarProduto);
     setProdutoAdd(true);
-    console.log(produtoAdd);
   }
 
   const useStyles = makeStyles((theme) => ({

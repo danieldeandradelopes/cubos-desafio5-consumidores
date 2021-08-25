@@ -23,6 +23,8 @@ export function FetchProvider({ children }) {
   });
   const [restauranteLocal, gravarRestauranteLocal, removerRestauranteLocal] =
     useLocalStorage("dadosRestaurante", "");
+  const [gravarCarrinho, setGravarCarrinho, removeGravarCarrinho] =
+    useLocalStorage("dadosCarrinho", []);
 
   async function handleLoginConsumidor(data) {
     const body = JSON.stringify(data);
@@ -125,7 +127,6 @@ export function FetchProvider({ children }) {
     const response = await fetch(
       `https://desafio5backconsumidor.herokuapp.com/restaurantes/${restauranteLocal.id}/pedidos`,
       {
-
         method: "POST",
         headers: {
           accept: "application/json",
@@ -167,6 +168,9 @@ export function FetchProvider({ children }) {
         removerRestauranteLocal,
         itemClick,
         setItemClick,
+        gravarCarrinho,
+        setGravarCarrinho,
+        removeGravarCarrinho,
       }}
     >
       {children}
@@ -201,6 +205,9 @@ export function UseFetch() {
     removerRestauranteLocal,
     itemClick,
     setItemClick,
+    gravarCarrinho,
+    setGravarCarrinho,
+    removeGravarCarrinho,
   } = useContext(FetchContext);
 
   return {
@@ -229,5 +236,8 @@ export function UseFetch() {
     removerRestauranteLocal,
     itemClick,
     setItemClick,
+    gravarCarrinho,
+    setGravarCarrinho,
+    removeGravarCarrinho,
   };
 }
