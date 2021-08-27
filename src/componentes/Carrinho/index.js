@@ -22,8 +22,6 @@ const useStyles = makeStyles((theme) => ({
 
 function CarrinhoModal() {
   const {
-    carrinho,
-    setCarrinho,
     endereco,
     setEndereco,
     abrirCarrinho,
@@ -40,6 +38,7 @@ function CarrinhoModal() {
   const [total, setTotal] = useState(0);
   const [carregando, setCarregando] = useState();
   const classes = useStyles();
+  const { id } = restauranteLocal;
 
   function addEndereco() {
     setAbrirCarrinho(false);
@@ -54,9 +53,10 @@ function CarrinhoModal() {
     }
   }, []);
 
+  const carrinho = gravarCarrinho[id] ? gravarCarrinho[id] : [];
   useEffect(() => {
-    if (gravarCarrinho.length !== 0) {
-      const valores = gravarCarrinho.length !== 0 && [...gravarCarrinho];
+    if (carrinho.length !== 0) {
+      const valores = carrinho.length !== 0 && [...gravarCarrinho[id]];
       const precos = [];
       for (const item of valores) {
         precos.push(item.preco * item.quantidade);
@@ -72,7 +72,7 @@ function CarrinhoModal() {
       const mostrarTotal = Number(subT) + Number(taxa);
       setTotal(mostrarTotal);
     }
-  }, [gravarCarrinho]);
+  }, [gravarCarrinho[id]]);
 
   const handleEnviarPedido = async (data) => {
     setCarregando(true);
@@ -127,7 +127,6 @@ function CarrinhoModal() {
   function fecharModalCarrinho() {
     if (carrinhoEnviado) {
       setCarrinhoEnviado(false);
-      setCarrinho([]);
     }
     setAbrirCarrinho(false);
   }
@@ -159,7 +158,7 @@ function CarrinhoModal() {
             </Link>
           </div>
         )}
-        {gravarCarrinho.length === 0 ? (
+        {carrinho.length === 0 ? (
           <div className="flex-row content-center item-center w-h-100">
             <img
               className="carrinho-vazio"
@@ -190,18 +189,17 @@ function CarrinhoModal() {
               {restauranteLocal && restauranteLocal.valor_minimo_pedido} minutos
             </p>
             <div
-              className={
-                gravarCarrinho.length > 1 ? "tam-lista scroll" : "tam-lista"
-              }
+              className={carrinho.length > 1 ? "tam-lista scroll" : "tam-lista"}
             >
-              {gravarCarrinho.length > 0 &&
-                gravarCarrinho.map((item) => (
+              {carrinho.length > 0 &&
+                carrinho.map((item) => (
                   <ItemCarrinho
                     imagemProduto={item.imagem}
                     nomeProduto={item.nome}
                     quantidade={item.quantidade}
                     precoProduto={item.preco}
                     idProduto={item.id}
+                    descricao={item.descricao}
                   />
                 ))}
             </div>

@@ -7,12 +7,20 @@ function ItemCarrinho({
   quantidade,
   precoProduto,
   idProduto,
+  descricao,
 }) {
-  const { setAbrirCard, setAbrirCarrinho } = UseFetch();
+  const { setAbrirCard, setAbrirCarrinho, setItemClick } = UseFetch();
 
   function retornarCard() {
     setAbrirCarrinho(false);
     setAbrirCard(true);
+    setItemClick({
+      id: idProduto,
+      nome: nomeProduto,
+      descricao: descricao,
+      preco: precoProduto,
+      imagem: imagemProduto,
+    });
   }
 
   return (

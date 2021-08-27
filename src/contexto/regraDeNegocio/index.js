@@ -1,4 +1,5 @@
 import { useState, createContext } from "react";
+import { useEffect } from "react";
 import { useContext } from "react";
 import { useLocalStorage } from "react-use";
 import { UseClientAuth } from "../autorizacao";
@@ -8,7 +9,6 @@ const FetchContext = createContext();
 export function FetchProvider({ children }) {
   const [restaurantes, setRestaurantes] = useState([]);
   const [abrirCard, setAbrirCard] = useState(false);
-  const [carrinho, setCarrinho] = useState([]);
   const [endereco, setEndereco] = useState([]);
   const [abrirCarrinho, setAbrirCarrinho] = useState(false);
   const [quantidade, setQuantidade] = useState(0);
@@ -24,7 +24,7 @@ export function FetchProvider({ children }) {
   const [restauranteLocal, gravarRestauranteLocal, removerRestauranteLocal] =
     useLocalStorage("dadosRestaurante", "");
   const [gravarCarrinho, setGravarCarrinho, removeGravarCarrinho] =
-    useLocalStorage("dadosCarrinho", []);
+    useLocalStorage("dadosCarrinho", {});
 
   async function handleLoginConsumidor(data) {
     const body = JSON.stringify(data);
@@ -152,8 +152,6 @@ export function FetchProvider({ children }) {
         restaurantes,
         setRestaurantes,
         handleListarRestaurantes,
-        carrinho,
-        setCarrinho,
         endereco,
         setEndereco,
         abrirCarrinho,
@@ -189,8 +187,6 @@ export function UseFetch() {
     restaurantes,
     setRestaurantes,
     handleListarRestaurantes,
-    carrinho,
-    setCarrinho,
     endereco,
     setEndereco,
     abrirCarrinho,
@@ -220,8 +216,6 @@ export function UseFetch() {
     restaurantes,
     setRestaurantes,
     handleListarRestaurantes,
-    carrinho,
-    setCarrinho,
     endereco,
     setEndereco,
     abrirCarrinho,

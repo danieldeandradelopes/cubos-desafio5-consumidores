@@ -49,18 +49,32 @@ function CardProduto() {
     }
 
     const { id, nome, preco, imagem } = itemClick;
-    const adicionarProduto = [...gravarCarrinho];
 
-    const produto = adicionarProduto.find((item) => item.id === id);
-    if (produto) {
-      produto.quantidade += quantidade;
-      setGravarCarrinho(adicionarProduto);
-      setProdutoAdd(true);
-      return;
+    const produtoDasLojas = gravarCarrinho ? [...gravarCarrinho] : [];
+
+    if (produtoDasLojas.hasOwnProperty(restauranteLocal.id)) {
+      const produtoIndex = produtoDasLojas[restauranteLocal.id].findIndex(
+        (item) => item.id === id
+      );
+      if (produtoIndex !== -1) {
+        produtoDasLojas[restauranteLocal.id][produtoIndex].quantidade =
+          quantidade;
+      } else {
+        produtoDasLojas[restauranteLocal.id].push({
+          quantidade,
+          id,
+          nome,
+          preco,
+          imagem,
+        });
+      }
+    } else {
+      console.log("oi");
+      produtoDasLojas[restauranteLocal.id] = [
+        { quantidade, id, nome, preco, imagem },
+      ];
     }
-
-    adicionarProduto.push({ quantidade, id, nome, preco, imagem });
-    setGravarCarrinho(adicionarProduto);
+    setGravarCarrinho(produtoDasLojas);
     setProdutoAdd(true);
   }
 
