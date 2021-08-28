@@ -25,6 +25,7 @@ const Cardapio = () => {
   const [restaurante, setRestaurante] = useState([]);
   const [produtos, setProdutos] = useState([]);
   const [carregando, setCarregando] = useState(false);
+  const [verMais, setVerMais] = useState(false);
   const { handleExibirCardapio, setAbrirCarrinho } = UseFetch();
   const { id_restaurante } = useParams();
   const classes = useStyles();
@@ -63,7 +64,24 @@ const Cardapio = () => {
       <div className="cardapio__info">
         <TagPedidoMinimo valorPedidoMinimo={restaurante.valor_minimo_pedido} />
         <TagTempoEntrega tempoEntrega={restaurante.tempo_entrega_minutos} />
-        <div>{restaurante.descricao}</div>
+        <div className="descricao-container">{
+          restaurante.descricao && (
+            <>
+              {!verMais && restaurante.descricao.length > 40
+                ? restaurante.descricao.slice(0, 40) + "..."
+                : restaurante.descricao}{" "}
+              <button
+                onClick={() => setVerMais(!verMais)}
+                className={
+                  restaurante.descricao.length < 40
+                    ? "ver-menos"
+                    : "ver-mais"
+                }
+              >
+                {verMais ? "ver menos" : "ver mais"}
+              </button>
+            </>
+          )}</div>
       </div>
       <div className="cardapio__lista__produtos">
         {produtos.length !== 0 ? (

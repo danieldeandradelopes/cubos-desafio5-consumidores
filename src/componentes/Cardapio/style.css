@@ -24,3 +24,18 @@
   flex-wrap: wrap;
   gap: 40px;
 }
+
+.descricao-container {
+  max-width: 350px;
+}
+
+.ver-mais {
+  all: unset;
+  color: #D13201;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.ver-menos {
+  display: none;
+}
