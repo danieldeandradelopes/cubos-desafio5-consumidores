@@ -50,7 +50,7 @@ function CardProduto() {
 
     const { id, nome, preco, imagem } = itemClick;
 
-    const produtoDasLojas = gravarCarrinho ? [...gravarCarrinho] : [];
+    const produtoDasLojas = gravarCarrinho ?? {};
 
     if (produtoDasLojas.hasOwnProperty(restauranteLocal.id)) {
       const produtoIndex = produtoDasLojas[restauranteLocal.id].findIndex(
