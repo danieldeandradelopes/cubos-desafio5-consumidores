@@ -117,5 +117,18 @@
   padding: 0;
   margin: -50px -15px 0px auto;
   cursor: pointer;
+}
 
+.tam-lista {
+  max-height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.scroll {
+  overflow: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: #303539 transparent;
 }

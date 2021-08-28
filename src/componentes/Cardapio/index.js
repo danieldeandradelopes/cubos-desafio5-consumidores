@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import TagPedidoMinimo from "../TagPedidoMinimo";
 import TagTempoEntrega from "../TagTempoEntrega";
-
+import { useHistory } from "react-router";
 import ItemCardapio from "../ItensCardapio";
 import SemPratos from "../SemPratos";
 
@@ -28,7 +28,7 @@ const Cardapio = () => {
   const { handleExibirCardapio, setAbrirCarrinho } = UseFetch();
   const { id_restaurante } = useParams();
   const classes = useStyles();
-
+  const history = useHistory();
   const loading = async () => {
     setCarregando(true);
     const dados = await handleExibirCardapio(id_restaurante);
@@ -59,6 +59,12 @@ const Cardapio = () => {
     <div className="cardapio">
       <div className="cardapio__btn__revisar">
         <button onClick={() => setAbrirCarrinho(true)}>Revisar Pedido</button>
+        <button
+          style={{ marginRight: "15px" }}
+          onClick={() => history.push("/")}
+        >
+          Voltar para restaurantes
+        </button>
       </div>
       <div className="cardapio__info">
         <TagPedidoMinimo valorPedidoMinimo={restaurante.valor_minimo_pedido} />

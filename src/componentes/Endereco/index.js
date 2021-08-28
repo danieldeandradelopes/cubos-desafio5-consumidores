@@ -87,7 +87,7 @@ const ModalEndereco = () => {
             X
           </span>
           <h2 className="titulo-endereco">Adicionar Endereço</h2>
-          {gravarConsumidor.endereco ? (
+          {gravarConsumidor?.endereco ? (
             <div className="div-sucesso flex-column item-center">
               <img src={Sucesso} alt="" />
               <button className="btn__laranja" onClick={() => carrinho()}>

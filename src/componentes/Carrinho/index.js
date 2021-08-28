@@ -22,8 +22,6 @@ const useStyles = makeStyles((theme) => ({
 
 function CarrinhoModal() {
   const {
-    carrinho,
-    setCarrinho,
     endereco,
     setEndereco,
     abrirCarrinho,
@@ -31,6 +29,8 @@ function CarrinhoModal() {
     setAbrirEndereco,
     handlePedido,
     restauranteLocal,
+    gravarCarrinho,
+    setGravarCarrinho,
   } = UseFetch();
   const { gravarConsumidor } = UseClientAuth();
   const [carrinhoEnviado, setCarrinhoEnviado] = useState(false);
@@ -38,7 +38,7 @@ function CarrinhoModal() {
   const [total, setTotal] = useState(0);
   const [carregando, setCarregando] = useState();
   const classes = useStyles();
-
+  const { id } = restauranteLocal;
 
   function addEndereco() {
     setAbrirCarrinho(false);
@@ -53,10 +53,10 @@ function CarrinhoModal() {
     }
   }, []);
 
-
+  const carrinho = gravarCarrinho[id] ? gravarCarrinho[id] : [];
   useEffect(() => {
     if (carrinho.length !== 0) {
-      const valores = carrinho.length !== 0 && [...carrinho];
+      const valores = carrinho.length !== 0 && [...gravarCarrinho[id]];
       const precos = [];
       for (const item of valores) {
         precos.push(item.preco * item.quantidade);
@@ -72,7 +72,7 @@ function CarrinhoModal() {
       const mostrarTotal = Number(subT) + Number(taxa);
       setTotal(mostrarTotal);
     }
-  }, [carrinho]);
+  }, [gravarCarrinho[id]]);
 
   const handleEnviarPedido = async (data) => {
     setCarregando(true);
@@ -97,7 +97,6 @@ function CarrinhoModal() {
   };
 
   function enviarPedido() {
-
     if (!gravarConsumidor.endereco) {
       toast.error("Endereço não fornecido", {
         position: "top-right",
@@ -119,8 +118,8 @@ function CarrinhoModal() {
 
     const data = {
       subtotal: subTotal * 100,
-      produtos: pedidos
-    }
+      produtos: pedidos,
+    };
 
     handleEnviarPedido(data);
   }
@@ -128,7 +127,6 @@ function CarrinhoModal() {
   function fecharModalCarrinho() {
     if (carrinhoEnviado) {
       setCarrinhoEnviado(false);
-      setCarrinho([]);
     }
     setAbrirCarrinho(false);
   }
@@ -179,7 +177,6 @@ function CarrinhoModal() {
               className="btn__laranja margem-auto"
               onClick={() => {
                 setAbrirCarrinho(false);
-                setCarrinho([])
               }}
             >
               Voltar para o cardápio
@@ -191,16 +188,21 @@ function CarrinhoModal() {
               Tempo de entrega:{" "}
               {restauranteLocal && restauranteLocal.valor_minimo_pedido} minutos
             </p>
-            {carrinho.length > 0 &&
-              carrinho.map((item) => (
-                <ItemCarrinho
-                  imagemProduto={item.imagem}
-                  nomeProduto={item.nome}
-                  quantidade={item.quantidade}
-                  precoProduto={item.preco}
-                  idProduto={item.id}
-                />
-              ))}
+            <div
+              className={carrinho.length > 1 ? "tam-lista scroll" : "tam-lista"}
+            >
+              {carrinho.length > 0 &&
+                carrinho.map((item) => (
+                  <ItemCarrinho
+                    imagemProduto={item.imagem}
+                    nomeProduto={item.nome}
+                    quantidade={item.quantidade}
+                    precoProduto={item.preco}
+                    idProduto={item.id}
+                    descricao={item.descricao}
+                  />
+                ))}
+            </div>
             <Link
               className="pagina-restaurantes"
               onClick={() => setAbrirCarrinho(false)}

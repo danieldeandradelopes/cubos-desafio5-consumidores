@@ -1,4 +1,5 @@
 import { useState, createContext } from "react";
+import { useEffect } from "react";
 import { useContext } from "react";
 import { useLocalStorage } from "react-use";
 import { UseClientAuth } from "../autorizacao";
@@ -8,7 +9,6 @@ const FetchContext = createContext();
 export function FetchProvider({ children }) {
   const [restaurantes, setRestaurantes] = useState([]);
   const [abrirCard, setAbrirCard] = useState(false);
-  const [carrinho, setCarrinho] = useState([]);
   const [endereco, setEndereco] = useState([]);
   const [abrirCarrinho, setAbrirCarrinho] = useState(false);
   const [quantidade, setQuantidade] = useState(0);
@@ -23,6 +23,8 @@ export function FetchProvider({ children }) {
   });
   const [restauranteLocal, gravarRestauranteLocal, removerRestauranteLocal] =
     useLocalStorage("dadosRestaurante", "");
+  const [gravarCarrinho, setGravarCarrinho, removeGravarCarrinho] =
+    useLocalStorage("dadosCarrinho", {});
 
   async function handleLoginConsumidor(data) {
     const body = JSON.stringify(data);
@@ -125,7 +127,6 @@ export function FetchProvider({ children }) {
     const response = await fetch(
       `https://desafio5backconsumidor.herokuapp.com/restaurantes/${restauranteLocal.id}/pedidos`,
       {
-
         method: "POST",
         headers: {
           accept: "application/json",
@@ -151,8 +152,6 @@ export function FetchProvider({ children }) {
         restaurantes,
         setRestaurantes,
         handleListarRestaurantes,
-        carrinho,
-        setCarrinho,
         endereco,
         setEndereco,
         abrirCarrinho,
@@ -167,6 +166,9 @@ export function FetchProvider({ children }) {
         removerRestauranteLocal,
         itemClick,
         setItemClick,
+        gravarCarrinho,
+        setGravarCarrinho,
+        removeGravarCarrinho,
       }}
     >
       {children}
@@ -185,8 +187,6 @@ export function UseFetch() {
     restaurantes,
     setRestaurantes,
     handleListarRestaurantes,
-    carrinho,
-    setCarrinho,
     endereco,
     setEndereco,
     abrirCarrinho,
@@ -201,6 +201,9 @@ export function UseFetch() {
     removerRestauranteLocal,
     itemClick,
     setItemClick,
+    gravarCarrinho,
+    setGravarCarrinho,
+    removeGravarCarrinho,
   } = useContext(FetchContext);
 
   return {
@@ -213,8 +216,6 @@ export function UseFetch() {
     restaurantes,
     setRestaurantes,
     handleListarRestaurantes,
-    carrinho,
-    setCarrinho,
     endereco,
     setEndereco,
     abrirCarrinho,
@@ -229,5 +230,8 @@ export function UseFetch() {
     removerRestauranteLocal,
     itemClick,
     setItemClick,
+    gravarCarrinho,
+    setGravarCarrinho,
+    removeGravarCarrinho,
   };
 }

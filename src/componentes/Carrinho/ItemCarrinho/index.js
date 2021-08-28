@@ -1,13 +1,30 @@
 import "./style.css";
+import { UseFetch } from "../../../contexto/regraDeNegocio";
 
 function ItemCarrinho({
   imagemProduto,
   nomeProduto,
   quantidade,
   precoProduto,
+  idProduto,
+  descricao,
 }) {
+  const { setAbrirCard, setAbrirCarrinho, setItemClick } = UseFetch();
+
+  function retornarCard() {
+    setAbrirCarrinho(false);
+    setAbrirCard(true);
+    setItemClick({
+      id: idProduto,
+      nome: nomeProduto,
+      descricao: descricao,
+      preco: precoProduto,
+      imagem: imagemProduto,
+    });
+  }
+
   return (
-    <div className="flex-row w-full margem-y">
+    <div className="flex-row w-full margem-y" onClick={() => retornarCard()}>
       <div
         className="imagem-item"
         style={{

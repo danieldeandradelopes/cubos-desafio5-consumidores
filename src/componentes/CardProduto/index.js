@@ -18,8 +18,8 @@ function CardProduto() {
     quantidade,
     setQuantidade,
     setAbrirCarrinho,
-    carrinho,
-    setCarrinho,
+    gravarCarrinho,
+    setGravarCarrinho,
     itemClick,
     restauranteLocal,
   } = UseFetch();
@@ -49,20 +49,33 @@ function CardProduto() {
     }
 
     const { id, nome, preco, imagem } = itemClick;
-    const adicionarProduto = [...carrinho];
 
-    const produto = adicionarProduto.find((item) => item.id === id);
-    if (produto) {
-      produto.quantidade += quantidade;
-      setCarrinho(adicionarProduto);
-      setProdutoAdd(true);
-      return;
+    const produtoDasLojas = gravarCarrinho ? [...gravarCarrinho] : [];
+
+    if (produtoDasLojas.hasOwnProperty(restauranteLocal.id)) {
+      const produtoIndex = produtoDasLojas[restauranteLocal.id].findIndex(
+        (item) => item.id === id
+      );
+      if (produtoIndex !== -1) {
+        produtoDasLojas[restauranteLocal.id][produtoIndex].quantidade =
+          quantidade;
+      } else {
+        produtoDasLojas[restauranteLocal.id].push({
+          quantidade,
+          id,
+          nome,
+          preco,
+          imagem,
+        });
+      }
+    } else {
+      console.log("oi");
+      produtoDasLojas[restauranteLocal.id] = [
+        { quantidade, id, nome, preco, imagem },
+      ];
     }
-
-    adicionarProduto.push({ quantidade, id, nome, preco, imagem });
-    setCarrinho(adicionarProduto);
+    setGravarCarrinho(produtoDasLojas);
     setProdutoAdd(true);
-    console.log(produtoAdd);
   }
 
   const useStyles = makeStyles((theme) => ({
