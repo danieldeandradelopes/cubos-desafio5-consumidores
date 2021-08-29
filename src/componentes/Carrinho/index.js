@@ -55,7 +55,11 @@ function CarrinhoModal() {
 
   const carrinho = gravarCarrinho[id] ? gravarCarrinho[id] : [];
   useEffect(() => {
-    if (carrinho.length !== 0) {
+    if (!gravarCarrinho) {
+      return;
+    }
+
+    if (carrinho.length > 0) {
       const valores = carrinho.length !== 0 && [...gravarCarrinho[id]];
       const precos = [];
       for (const item of valores) {
@@ -127,6 +131,7 @@ function CarrinhoModal() {
   function fecharModalCarrinho() {
     if (carrinhoEnviado) {
       setCarrinhoEnviado(false);
+      setGravarCarrinho({});
     }
     setAbrirCarrinho(false);
   }
@@ -176,7 +181,7 @@ function CarrinhoModal() {
             <button
               className="btn__laranja margem-auto"
               onClick={() => {
-                setAbrirCarrinho(false);
+                fecharModalCarrinho(false);
               }}
             >
               Voltar para o cardápio
